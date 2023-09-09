@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { styled } from "styled-components";
 import { RegisterUser } from "../../store/userRelated/userHandle";
+import { Link } from "react-router-dom";
 
 const StyledForm = styled.form`
   display: flex;
@@ -25,6 +26,7 @@ const Register = () => {
   };
   return (
     <StyledForm onSubmit={handleSubmit}>
+      <Link to="/login">LOGIN</Link>
       <label>Name:</label>
       <input
         type="text"
