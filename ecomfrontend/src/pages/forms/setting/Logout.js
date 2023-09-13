@@ -38,7 +38,7 @@ const Logout = () => {
     }
 
     const okHandler = () => {
-    
+        console.log("ok is handling")
     }
 
     return(
