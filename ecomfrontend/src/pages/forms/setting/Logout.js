@@ -39,6 +39,7 @@ const Logout = () => {
 
     const okHandler = () => {
         console.log("ok is handling")
+        //logout function
     }
 
     return(
