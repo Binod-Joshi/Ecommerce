@@ -1,4 +1,4 @@
-import { authRequest, authSuccess, authFailed, authError } from "./userSlice";
+import { authRequest, authSuccess, authFailed, authError, authLogout } from "./userSlice";
 
 export const loginUser = (fields) => async (dispatch) => {
     
@@ -47,5 +47,13 @@ export const RegisterUser = (fields) => async(dispatch) => {
     }
   } catch (error) {
     dispatch(authError(error));
+  }
+}
+
+export const LogoutUser = () => async(dispatch) => {
+  try {
+    dispatch(authLogout());
+  } catch (error) {
+    console.log(error);
   }
 }

@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { LogoutUser } from "../../../store/userRelated/userHandle";
+import { useDispatch } from "react-redux";
 
 const StyledLogout = styled.div`
 
@@ -30,7 +32,10 @@ h1 {
     }
   }
 `;
+
 const Logout = () => {
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const cancelHandler = () => {
@@ -38,7 +43,7 @@ const Logout = () => {
     }
 
     const okHandler = () => {
-        console.log("ok is handling")
+        dispatch(LogoutUser())
         //logout function
     }
 

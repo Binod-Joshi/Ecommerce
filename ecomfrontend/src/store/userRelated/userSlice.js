@@ -22,6 +22,14 @@ const userSlice = createSlice({
             localStorage.setItem("user",JSON.stringify(action.payload));
             state.status = "success";
         },
+        authLogout:(state) => {
+            state.status = 'idle'
+            state.loading = false;
+            state.currentUser = null;
+            state.response = null;
+            state.error = null;
+            localStorage.clear();
+        },
         authFailed:(state,action) => {
             state.loading = false;
             state.status = "failed";
@@ -35,6 +43,6 @@ const userSlice = createSlice({
     }
 });
 
-export const {authRequest, authSuccess, authError, authFailed} = userSlice.actions;
+export const {authRequest, authSuccess, authError, authFailed,authLogout} = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
