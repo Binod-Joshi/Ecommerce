@@ -26,6 +26,7 @@ export const loginUser = (fields) => async (dispatch) => {
   }
 };
 
+
 export const RegisterUser = (fields) => async(dispatch) => {
   const {name, email, password} = fields;
   console.log(name,email,password);
