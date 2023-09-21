@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import UserHome from './pages/users/UserHome';
 import PrivateComponent from './privatecomponent/PrivateComponent';
 import Logout from './pages/forms/setting/Logout';
+import ParticularProduct from './pages/products/ParticularProduct';
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -15,6 +16,7 @@ function App() {
       <Routes >
         <Route element={<PrivateComponent/>}>
         <Route path='/' element={<UserHome/>} />
+        <Route path='/particularproduct' element={<ParticularProduct/>} />
         <Route path='/logout' element={<Logout/>} />
         </Route>
 

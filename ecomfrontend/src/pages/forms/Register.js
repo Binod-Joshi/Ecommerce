@@ -134,3 +134,39 @@ const Register = () => {
 };
 
 export default Register;
+
+
+
+// <div className="registerpicManagement">
+// <label htmlFor="fileInput">
+// <BiUserCircle className="settingsPPIcon" />
+// </label>
+// <input
+//       id="fileInput"
+//       type="file"
+//       style={{ display: "none" }}
+//       className="settingsPPInput" accept="image/*"
+//       onChange={imageUpload}
+//     />
+// {profileDP?<img src={profileDP} alt="" /> :''}   
+//  </div>
+
+// const imageUpload = async(e) => {
+//   const file = e.target.files[0];
+//   const base64 = await convertToBase64(file);
+//   setProfileDP(base64)
+
+// }
+// const convertToBase64 = async(file) => {
+//   const fileReader = new FileReader();
+//   fileReader.readAsDataURL(file);
+
+//   return new Promise((resolve,reject) => {
+//       fileReader.onload = () => {
+//           resolve(fileReader.result);
+//       };
+//       fileReader.onerror = (error) => {
+//           reject(error);
+//       };
+//   });
+// };
