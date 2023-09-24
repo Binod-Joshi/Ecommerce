@@ -5,6 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const StyledDiv = styled.div`
 margin: 10px;
@@ -27,6 +28,8 @@ padding: 50px 30px; /* Add padding to the top, left, and right */
   `
 
 const UserCarts = () => {
+
+  const navigate = useNavigate();
 
     const cardsData = [
         {
@@ -104,13 +107,19 @@ const UserCarts = () => {
               description: 'Description for Card 4',
             },
       ];
-      
+
+      const handleClickProduct = (cloth) => {
+        const image = cloth.image
+        const encodedImage = encodeURIComponent(image);
+        // const removedhttpimage = image.replace(/^https:\/\//, '');
+        navigate(`/particularproduct/${encodedImage}`);
+      }
   return (
     <>
     <StyledDiv>
     {cardsData.map((card, index) => (
-        <Card key={index} sx={{ maxWidth: 345,mb:"30px", }}>
-          <CardActionArea>
+        <Card key={index} sx={{ maxWidth: 345,mb:"30px" }}>
+          <CardActionArea onClick={(e) => handleClickProduct(card)}>
             <CardMedia
               component="img"
               height="140"
