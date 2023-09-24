@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea } from "@mui/material";
+import { Button } from "@mui/material";
 import "./Cart.css";
 import { CenteredText } from "../products/ParticularProduct";
 import BoltIcon from "@mui/icons-material/Bolt";
@@ -63,20 +63,20 @@ const Cart = () => {
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ display: "flex", flexDirection: "row",backgroundColor:"#e4e7ed" }}>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             gap: "10px",
-            padding: "10px",
-            width: "61vw",
+            padding: "20px 0",
+            width: "66vw",
           }}
         >
-          <Card sx={{ maxWidth: "60vw" }}>
+          <Card sx={{ maxWidth: "65vw",margin: "0 5% 0 13%" }}>
             <ScrollableParagraph>
               {addedCardsData.map((cards, index) => (
-                <Card key={index} sx={{ maxWidth: "60vw" }}>
+                <Card key={index} sx={{ maxWidth: "65vw" }}>
                   <div className="outerCard">
                     <CardMedia
                       component="img"
@@ -141,7 +141,7 @@ const Cart = () => {
         </div>
 
         {/* total price section */}
-        <Card style={{width:"400px",margin:"10px",height:"390px"}}>
+        <Card style={{width:"400px",margin:"20px 0",height:"390px"}}>
           <div >
             <p style={{padding:"0 10px",fontSize:"large"}}>PRICE DETAILS</p>
             <hr />

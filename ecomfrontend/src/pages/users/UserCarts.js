@@ -13,7 +13,7 @@ display: grid;
 grid-template-columns: repeat(5, 1fr); /* Six equal-width columns */
 gap: 20px;
 padding: 50px 30px; /* Add padding to the top, left, and right */
-
+background-color:#e4e7ed;
 
 @media (min-width: 768px) and (max-width: 1199px) {
   grid-template-columns: repeat(4, 1fr);

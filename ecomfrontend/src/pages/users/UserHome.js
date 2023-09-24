@@ -37,6 +37,7 @@ const UserHome =() => {
 
   const handleOpenCart = (event) => {
     console.log("open cart")
+    navigate("/openCart")
   };
 
   const handleCloseNavMenu = () => {
@@ -56,11 +57,11 @@ const UserHome =() => {
 
   return (
     <>
-    <AppBar position="static">
+    <AppBar position="sticky"  >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <ShoppingBagIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
+          <Typography 
             variant="h6"
             noWrap
             component="a"

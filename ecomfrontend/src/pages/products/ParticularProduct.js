@@ -16,6 +16,7 @@ const StyledDiv = styled.div`
   // align-items: center;
   padding: 20px;
   gap: 10px;
+  background-color:#e4e7ed;
 
   & > div:first-child {
     flex: 0 0 40vw; /* Set the first card to 30vw width */
@@ -58,7 +59,7 @@ const ParticularProduct = () => {
   const decodedImage = decodeURIComponent(encodedImage);
 
   const handleAddToCart =() => {
-    navigate("/openCart")
+    console.log("adding to cart.")
   }
 
 
