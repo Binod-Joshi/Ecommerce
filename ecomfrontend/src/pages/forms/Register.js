@@ -26,10 +26,12 @@ const StyledForm = styled.form`
   gap: 10px;
 `;
 
-const Register = () => {
+const Register = ({role}) => {
   const {status, loading} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const updatedrole = role.charAt(0).toLowerCase() + role.slice(1);
 
   useEffect(() => {
     console.log(status);
@@ -52,9 +54,10 @@ const Register = () => {
     const email = data.get("email");
     const password = data.get("password");
 
-    const fields = { name, password, email };
+    const fields = { name, password, email,role };
     dispatch(RegisterUser(fields));
   };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -70,7 +73,7 @@ const Register = () => {
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign up {role}
           </Typography>
           <Box
             component="form"
@@ -121,7 +124,7 @@ const Register = () => {
             </Button>
             <Grid container>
               <Grid item xs style={{ textAlign: "center" }}>
-                <Link href="/login" variant="body2">
+                <Link href={`/login${updatedrole}`} variant="body2">
                   {"Already have an account? Sign In"}
                 </Link>
               </Grid>

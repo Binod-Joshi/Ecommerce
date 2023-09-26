@@ -2,13 +2,13 @@ import { authRequest, authSuccess, authFailed, authError, authLogout } from "./u
 
 export const loginUser = (fields) => async (dispatch) => {
     
-  const { email,password } = fields;
+  const { email,password,role } = fields;
   console.log(email, password);
   dispatch(authRequest());
   try {
-    let result = await fetch(`http://localhost:5000/auth/login`, {
+    let result = await fetch(`http://localhost:5000/auth/login${role}`, {
       method: "post",
-      body: JSON.stringify({ email, password }), // Fixed the payload
+      body: JSON.stringify({ email, password,role }), // Fixed the payload
       headers: {
         "Content-Type": "application/json",
       },
@@ -28,13 +28,13 @@ export const loginUser = (fields) => async (dispatch) => {
 
 
 export const RegisterUser = (fields) => async(dispatch) => {
-  const {name, email, password} = fields;
-  console.log(name,email,password);
+  const {name, email, password,role} = fields;
+  console.log(name,email,password,role);
   dispatch(authRequest());
   try {
-    let result = await fetch(`http://localhost:5000/auth/register`,{
+    let result = await fetch(`http://localhost:5000/auth/register${role}`,{
       method: "post",
-      body:JSON.stringify({email,name,password}),
+      body:JSON.stringify({email,name,password,role}),
       headers:{
         "Content-Type":"application/json"
       }

@@ -17,10 +17,13 @@ import { loginUser } from '../../store/userRelated/userHandle';
 
 const defaultTheme = createTheme();
 
-export default function Login() {
+export default function Login({role}) {
   const {status,loading} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log(role);
+
+  const updatedrole = role.charAt(0).toLowerCase()+role.slice(1);
 
   React.useEffect(() => {
     console.log(status);
@@ -39,8 +42,7 @@ export default function Login() {
 
     const email = data.get('email');
     const password = data.get('password');
-
-    const fields = { password, email };
+    const fields = { password, email,role };
     dispatch(loginUser(fields));
   };
 
@@ -59,7 +61,7 @@ export default function Login() {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign in {role}
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -101,7 +103,7 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
+                <Link href={`/register${updatedrole}`} variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

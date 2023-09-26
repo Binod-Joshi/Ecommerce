@@ -1,0 +1,38 @@
+.Home{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 25%;
+    height: 100vh;
+    
+}
+.adminSelect{
+    width: 280px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(0deg,#92a4f5,#ffffff9a);
+    transition: all 0.3s ease-in-out;
+
+}
+.studentSelect{
+    width: 280px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(0deg,#92a4f5,#ffffff9a);
+    transition: all 0.3s ease-in-out;
+}
+
+.adminSelect:hover,.studentSelect:hover{
+       background-image:  linear-gradient(0deg,#ffffff9a,#92a4f5);
+}
+
+@media screen and (max-width: 767px){
+    .Home{
+        flex-direction: column;
+    }
+}

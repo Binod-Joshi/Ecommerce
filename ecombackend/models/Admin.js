@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
@@ -16,10 +16,10 @@ const userSchema = new mongoose.Schema({
     },
     role:{
         type:String,
-        default:"User",
+        default:"Admin",
     },
 },
 {timestamps:true}
 )
 
-module.exports = new mongoose.model("User",userSchema);
+module.exports = new mongoose.model("Admin",adminSchema);
