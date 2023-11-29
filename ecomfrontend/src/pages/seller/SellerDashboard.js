@@ -40,7 +40,8 @@ const SellerDashboard = () => {
     const navigate = useNavigate()
 
     const homeHandler = () => {
-        navigate("/")
+        
+        navigate(`/`)
     };
 
     return (
