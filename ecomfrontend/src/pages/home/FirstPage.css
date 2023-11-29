@@ -31,6 +31,9 @@
        background-image:  linear-gradient(0deg,#ffffff9a,#92a4f5);
 }
 
+.link{
+    text-decoration: none !important;
+}
 @media screen and (max-width: 767px){
     .Home{
         flex-direction: column;

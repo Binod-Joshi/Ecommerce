@@ -4,7 +4,7 @@ const Admin = require("../models/Admin");
 const bcrypt = require("bcrypt");
 
 
-router.post('/registerUser', async(req,res) => {
+router.post('/registerCustomer', async(req,res) => {
     const {name, email, password} = req.body;
     console.log(email,password);
     try {
@@ -17,7 +17,6 @@ router.post('/registerUser', async(req,res) => {
         });
 
         const emailExist = await User.findOne({email});
-
         if(emailExist){
             res.send({message:"email already exist."})
         }else{
@@ -34,7 +33,7 @@ router.post('/registerUser', async(req,res) => {
     }
 });
 
-router.post("/loginUser", async(req,res) => {
+router.post("/loginCustomer", async(req,res) => {
     const {email,password} = req.body;
     try {
         if(req.body.email && req.body.password){
@@ -64,7 +63,7 @@ router.post("/loginUser", async(req,res) => {
 
 // for admin
 
-router.post('/registerAdmin', async(req,res) => {
+router.post('/registerSeller', async(req,res) => {
     const {name, email, password,role} = req.body;
     console.log(name,email,password,role);
     try {
@@ -94,7 +93,7 @@ router.post('/registerAdmin', async(req,res) => {
     }
 });
 
-router.post("/loginAdmin", async(req,res) => {
+router.post("/loginSeller", async(req,res) => {
     const {email,password} = req.body;
     try {
         if(req.body.email && req.body.password){

@@ -31,3 +31,13 @@
     justify-content: flex-end;
     padding: 5px;
 }
+.homeMode{
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .homeMode {
+        display: block;
+        /* Additional styles for .homeMode on mobile screens */
+    }
+}

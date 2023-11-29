@@ -5,7 +5,7 @@ const productSchema = new mongoose.Schema({
         type:String,
         requied:true,
     },
-    rate:{
+    cost:{
         type:Number,
         requied:true,
     },
@@ -21,9 +21,18 @@ const productSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
-    Description:{
+    quantity:{
+        type:Number,
+        required:true,
+    },
+    description:{
         type:String,
         requied:true,
+    },
+    seller:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Seller",
+        required: true,
     }
 },
 {

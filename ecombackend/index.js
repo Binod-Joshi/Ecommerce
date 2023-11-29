@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const app = express();
 
 dotenv.config();
-app.use(express.json()); // to get data from the frontend
+app.use(express.json({limit:"10mb"})); // to get data from the frontend
 app.use(cors());
 
 mongoose.connect(process.env.MONGO_URL, {
@@ -17,8 +17,12 @@ mongoose.connect(process.env.MONGO_URL, {
 })
 
 const authRoute = require("./routes/auth");
+const authAdminp = require("./routes/admin/productsRelated");
+const authAdminShippingRelated = require("./routes/admin/shippingRelated");
 
 app.use("/auth",authRoute);
+app.use("/auth/sellerp",authAdminp);
+app.use("/auth/cshipping",authAdminShippingRelated);
 
 app.listen(5000,() => {
     console.log(`http://localhost:5000`);
