@@ -23,7 +23,7 @@ export const addProducts = (fields) => async (dispatch) => {
     fields;
   dispatch(authRequest());
   try {
-    let result = await fetch(`http://localhost:5000/auth/sellerp/addproduct`, {
+    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/addproduct`, {
       method: "post",
       body: JSON.stringify({
         name,
@@ -54,7 +54,7 @@ export const addProducts = (fields) => async (dispatch) => {
 export const getProducts = () => async (dispatch) => {
   dispatch(authRequest());
   try {
-    let result = await fetch(`http://localhost:5000/auth/sellerp/getProducts`, {
+    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/getProducts`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export const particularProductDetails = (productId) => async (dispatch) => {
   dispatch(authRequest());
   try {
     let result = await fetch(
-      `http://localhost:5000/auth/sellerp/getparticularproduct`,
+      `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/getparticularproduct`,
       {
         method: "post",
         body: JSON.stringify({ productId }),
@@ -111,7 +111,7 @@ export const getSearchedProducts = (category) => async (dispatch) => {
   dispatch(authRequest());
   try {
     let result = await fetch(
-      `http://localhost:5000/auth/sellerp/getsearchedrproduct`,
+      `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/getsearchedrproduct`,
       {
         method: "post",
         body: JSON.stringify({ key }),
@@ -148,7 +148,7 @@ export const getSearchesProduct = (key) => async (dispatch) => {
   dispatch(authRequest());
   try {
     let result = await fetch(
-      `http://localhost:5000/auth/sellerp/getSearchesproduct`,
+      `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/getSearchesproduct`,
       {
         method: "post",
         body: JSON.stringify({ key }),
@@ -171,7 +171,7 @@ export const getSearchesProduct = (key) => async (dispatch) => {
 // save to cart
 export const saveToCart = (fields) => async (dispatch) => {
   try {
-    let result = await fetch("http://localhost:5000/auth/sellerp/savetocart", {
+    let result = await fetch("${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/savetocart", {
       method: "POST",
       body: JSON.stringify({ fields }), // Send the fields directly without JSON.stringify()
       headers: {
@@ -196,7 +196,7 @@ export const getProductOfCart = (id, remo) => async (dispatch) => {
 
   try {
     let result = await fetch(
-      `http://localhost:5000/auth/sellerp/getcartproducts/${id}`,
+      `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/getcartproducts/${id}`,
       {
         method: "get",
         headers: {
@@ -221,7 +221,7 @@ export const authUpdateQuantityOfProductInCart =
   (id, quantity) => async (dispatch) => {
     try {
       let result = await fetch(
-        `http://localhost:5000/auth/sellerp/updatingquantityofproductincart`,
+        `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/updatingquantityofproductincart`,
         {
           method: "post",
           body: JSON.stringify({ id, quantity }),
@@ -246,7 +246,7 @@ export const authRemoveProductFromCart = (id) => async (dispatch) => {
   console.log(id);
   try {
     let result = await fetch(
-      `http://localhost:5000/auth/sellerp/removeproductfromCart/${id}`,
+      `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/removeproductfromCart/${id}`,
       {
         method: "put",
         headers: {
@@ -282,7 +282,7 @@ export const setBuyedProduct = (id) => async (dispatch) => {
   console.log(id);
   try {
     let result = await fetch(
-      `http://localhost:5000/auth/sellerp/settingOrderedProduct`,
+      `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/settingOrderedProduct`,
       {
         method: "post",
         body: JSON.stringify({ id }),
@@ -304,7 +304,7 @@ export const addUpdateShippingData = (fields) => async (dispatch) => {
   console.log(fields);
   try {
     let result = await fetch(
-      `http://localhost:5000/auth/cshipping/addupdateshippingdata`,
+      `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/cshipping/addupdateshippingdata`,
       {
         method: "post",
         body: JSON.stringify(fields),
@@ -327,7 +327,7 @@ export const getShippingDataIfAvailable = (id) => async (dispatch) => {
   dispatch(authRequest());
   try {
     let result = await fetch(
-      `http://localhost:5000/auth/cshipping/gettingshippingdata/${id}`,
+      `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/cshipping/gettingshippingdata/${id}`,
       {
         method: "get",
       }
@@ -348,7 +348,7 @@ export const getProductOfSeller = (id) => async (dispatch) => {
   console.log(id);
   dispatch(authRequest());
   try {
-    let result = await fetch(`http://localhost:5000/auth/seller/getproduct/${id}`,
+    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/seller/getproduct/${id}`,
     {method:"get",});
     result = await result.json();
     console.log(result);
@@ -366,7 +366,7 @@ export const updatingProduct = (fields) => async (dispatch) => {
   console.log(fields);
   dispatch(authRequest());
   try {
-    let result = await fetch(`http://localhost:5000/auth/seller/updatingproduct`, {
+    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/seller/updatingproduct`, {
       method: "put",
       body: JSON.stringify({fields}),
       headers: {
@@ -393,7 +393,7 @@ export const RemovingProductFromSellerList = (id) => async(dispatch) => {
   console.log(id);
   dispatch(authRequest());
   try {
-    let result = await fetch(`http://localhost:5000/auth/seller/removingproduct`,{
+    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/seller/removingproduct`,{
       method:"post",
       body : JSON.stringify({id}),
       headers:{

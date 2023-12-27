@@ -6,7 +6,7 @@ export const loginUser = (fields) => async (dispatch) => {
   console.log(email, password);
   dispatch(authRequest());
   try {
-    let result = await fetch(`http://localhost:5000/auth/login${role}`, {
+    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/login${role}`, {
       method: "post",
       body: JSON.stringify({ email, password,role }), // Fixed the payload
       headers: {
@@ -32,7 +32,7 @@ export const RegisterUser = (fields) => async(dispatch) => {
   console.log(name,email,password,role);
   dispatch(authRequest());
   try {
-    let result = await fetch(`http://localhost:5000/auth/register${role}`,{
+    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/register${role}`,{
       method: "post",
       body:JSON.stringify({email,name,password,role}),
       headers:{
