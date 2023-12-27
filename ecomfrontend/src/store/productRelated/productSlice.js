@@ -11,6 +11,7 @@ const initialState = {
   cartProductList: [],
   cartProductLength:null,
   gettedShippingData:null,
+  listOfProductOfSingleSeller:[],
 };
 
 const productSlice = createSlice({
@@ -75,7 +76,12 @@ const productSlice = createSlice({
       state.gettedShippingData = action?.payload;
       state.loading = false;
       state.status = "idle";
-    }
+    },
+    authGettedProductOfSingleSeller: (state, action) => {
+      state.listOfProductOfSingleSeller = action?.payload;
+      state.status = "idle";
+      state.loading = false;
+    },
   },
 });
 
@@ -92,6 +98,7 @@ export const {
   authCartProductList,
   authCartProductLengthHandler,
   authgettingShippingData,
+  authGettedProductOfSingleSeller,
 } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

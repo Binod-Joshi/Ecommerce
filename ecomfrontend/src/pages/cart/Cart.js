@@ -44,13 +44,13 @@ const Cart = () => {
   const navigate = useNavigate();
   const Id = currentUser._id;
 
-  const totalCost = cartProductList.reduce(
-    (sum, products) => sum + products.product.cost,
+  const totalCost = cartProductList?.reduce(
+    (sum, products) => sum + products?.product?.cost,
     0
   );
   const totalDiscount = cartProductList.reduce(
     (sum, products) =>
-      sum + products.product.cost * (products.product.discount / 100),
+      sum + products?.product?.cost * (products?.product?.discount / 100),
     0
   );
   const totalCostAfterDiscount = totalCost - totalDiscount;

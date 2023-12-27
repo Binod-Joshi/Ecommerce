@@ -10,10 +10,12 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useSelector } from "react-redux";
 const Slide = ({ products, title }) => {
+  const {currentUser} = useSelector((state) => state.user);
   // i have to get products as props
   const navigate = useNavigate();
-
+  
   return (
     <Component>
       <Deal>
@@ -45,6 +47,7 @@ const Slide = ({ products, title }) => {
         dotListClass="custom-dot-list-style"
         itemClass="carousel-item-padding-40-px"
       >
+       
         {products?.length >0 &&
           products?.map((product, index) => {
             const image = product?.image || ""; // Handle undefined product or product.image

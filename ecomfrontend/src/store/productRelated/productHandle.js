@@ -11,6 +11,7 @@ import {
   authCartProductList,
   authCartProductLengthHandler,
   authgettingShippingData,
+  authGettedProductOfSingleSeller,
 } from "./productSlice";
 
 export const settingAllToInitial = () => async (dispatch) => {
@@ -341,3 +342,72 @@ export const getShippingDataIfAvailable = (id) => async (dispatch) => {
     dispatch(authError("Network Error."));
   }
 };
+
+// getting the product of seller
+export const getProductOfSeller = (id) => async (dispatch) => {
+  console.log(id);
+  dispatch(authRequest());
+  try {
+    let result = await fetch(`http://localhost:5000/auth/seller/getproduct/${id}`,
+    {method:"get",});
+    result = await result.json();
+    console.log(result);
+    if(result?.length){
+      dispatch(authGettedProductOfSingleSeller(result));
+    }
+  } catch (error) {
+    console.error("Network Eroor:", error);
+    dispatch(authError("Network Error."));
+  }
+};
+
+// for updating quantity of the product 
+export const updatingProduct = (fields) => async (dispatch) => {
+  console.log(fields);
+  dispatch(authRequest());
+  try {
+    let result = await fetch(`http://localhost:5000/auth/seller/updatingproduct`, {
+      method: "put",
+      body: JSON.stringify({fields}),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    result = await result.json();
+    console.log(result);
+    if (result._id) {
+      console.log(result);
+      // Do something with the result if needed
+      dispatch(authGetParticularProductDetails(result));
+    }
+  } catch (error) {
+    console.error("Network Error:", error);
+    dispatch(authError("Network Error."));
+  }
+};
+
+
+// removing product from seller list
+export const RemovingProductFromSellerList = (id) => async(dispatch) => {
+  console.log(id);
+  dispatch(authRequest());
+  try {
+    let result = await fetch(`http://localhost:5000/auth/seller/removingproduct`,{
+      method:"post",
+      body : JSON.stringify({id}),
+      headers:{
+        "Content-Type":"application/json"
+      },
+    });
+    result = await result.json();
+    console.log(result);
+    if(result){
+      console.log(result);
+    }
+
+  } catch (error) {
+    console.error("Network Error:", error);
+    dispatch(authError("Network Error."));
+  }
+}
+

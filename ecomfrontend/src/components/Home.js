@@ -1,31 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Container, styled } from '@mui/material';
-import Slide from './Slide';
-import Banner from './Banner';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProductOfCart, getProducts } from '../store/productRelated/productHandle';
-import ProductsMenu from './ProductsMenu';
-import { NewtonsCradle } from '@uiball/loaders';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Box, Container, styled } from "@mui/material";
+import Slide from "./Slide";
+import Banner from "./Banner";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductOfCart, getProductOfSeller } from "../store/productRelated/productHandle";
+import ProductsMenu from "./ProductsMenu";
+import { NewtonsCradle } from "@uiball/loaders";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const adURL =
-    'https://rukminim1.flixcart.com/flap/464/708/image/1f03e99f6dc9f7a6.jpg?q=70';
+    "https://rukminim1.flixcart.com/flap/464/708/image/1f03e99f6dc9f7a6.jpg?q=70";
 
   const dispatch = useDispatch();
 
-  const {currentUser, responseProducts, error } = useSelector((state) => state.user);
-  const {productData,response} = useSelector((state) => state.product);
+  const { currentUser, responseProducts, error } = useSelector(
+    (state) => state.user
+  );
+  const {loading, productData, listOfProductOfSingleSeller, response } = useSelector(
+    (state) => state.product
+  );
 
   const [showNetworkError, setShowNetworkError] = useState(false);
   const Id = currentUser?._id;
 
   useEffect(() => {
-    if(Id !== undefined){
+    if (Id !== undefined) {
       console.log(Id);
       dispatch(getProductOfCart(Id));
+      dispatch(getProductOfSeller(Id));
     }
   }, []);
+  console.log(listOfProductOfSingleSeller);
 
   useEffect(() => {
     if (error) {
@@ -41,20 +47,22 @@ const Home = () => {
     <div id="top">
       <Container
         sx={{
-          display: 'none',
-          '@media (max-width: 600px)': {
-            display: 'flex',
-            justifyContent:"center",
-            marginTop:"2px"
+          display: "none",
+          "@media (max-width: 600px)": {
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "2px",
           },
         }}
       >
-        <ProductsMenu dropName="Categories"  />
+        <ProductsMenu dropName="Categories" />
         {/* <ProductsMenu dropName="Products" /> */}
       </Container>
-      <BannerBox>
-        <Banner />
-      </BannerBox>
+      {currentUser?.role !== "Seller" && (
+        <BannerBox>
+          <Banner />
+        </BannerBox>
+      )}
 
       {showNetworkError ? (
         <StyledContainer>
@@ -72,16 +80,21 @@ const Home = () => {
               <StyledContainer>No products found right now</StyledContainer>
               <StyledContainer>
                 Become a seller to add products
-                <Link to={"/Sellerregister"}>
-                  Join
-                </Link>
+                <Link to={"/Sellerregister"}>Join</Link>
               </StyledContainer>
             </>
           ) : (
             <>
               <Component>
                 <LeftComponent>
-                  <Slide products={productData} title="Top Selection" />
+                  <Slide
+                    products={
+                      currentUser?.role === "Seller"
+                        ? listOfProductOfSingleSeller
+                        : productData
+                    }
+                    title="Top Selection"
+                  />
                 </LeftComponent>
 
                 <RightComponent>
@@ -89,10 +102,55 @@ const Home = () => {
                 </RightComponent>
               </Component>
 
-              <Slide products={productData} title="Deals of the Day" />
-              <Slide products={productData} title="Suggested Items" />
-              <Slide products={productData} title="Discounts for You" />
-              <Slide products={productData} title="Recommended Items" />
+              {(listOfProductOfSingleSeller && listOfProductOfSingleSeller.length === 0 &&
+              currentUser?.role === "Seller") ? (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                 {loading&&<h1>Loading...</h1>}
+                 {!loading && <h2>you haven't add any product yet to sell.</h2>}
+                </div>
+              ) : (
+                <>
+                  {" "}
+                  <Slide
+                    products={
+                      currentUser?.role === "Seller"
+                        ? listOfProductOfSingleSeller
+                        : productData
+                    }
+                    title="Deals of the Day"
+                  />
+                  <Slide
+                    products={
+                      currentUser?.role === "Seller"
+                        ? listOfProductOfSingleSeller
+                        : productData
+                    }
+                    title="Suggested Items"
+                  />
+                  <Slide
+                    products={
+                      currentUser?.role === "Seller"
+                        ? listOfProductOfSingleSeller
+                        : productData
+                    }
+                    title="Discounts for You"
+                  />
+                  <Slide
+                    products={
+                      currentUser?.role === "Seller"
+                        ? listOfProductOfSingleSeller
+                        : productData
+                    }
+                    title="Recommended Items"
+                  />
+                </>
+              )}
             </>
           )}
         </>
@@ -113,7 +171,7 @@ const StyledContainer = styled(Container)`
 
 const BannerBox = styled(Box)`
   padding: 20px 10px;
-  background: #F2F2F2;
+  background: #f2f2f2;
 `;
 
 const Component = styled(Box)`
@@ -121,20 +179,20 @@ const Component = styled(Box)`
 `;
 
 const LeftComponent = styled(Box)(({ theme }) => ({
-  width: '83%',
-  [theme.breakpoints.down('md')]: {
-    width: '100%',
+  width: "83%",
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
   },
 }));
 
 const RightComponent = styled(Box)(({ theme }) => ({
   marginTop: 10,
-  background: '#FFFFFF',
-  width: '17%',
+  background: "#FFFFFF",
+  width: "17%",
   marginLeft: 10,
   padding: 5,
-  textAlign: 'center',
-  [theme.breakpoints.down('md')]: {
-    display: 'none',
+  textAlign: "center",
+  [theme.breakpoints.down("md")]: {
+    display: "none",
   },
 }));

@@ -20,15 +20,72 @@ import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import CheckoutSteps from "./buyingprocess/CheckOutSteps";
 import FinalOrderedPage from "./buyingprocess/FinalOrderedPage";
+import SellerDashboard from "./pages/seller/SellerDashboard";
+import BuyingCartingWithoutLogin from "./components/BuyingCartingWithoutLogin";
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
-
+  console.log(currentUser?.role)
   return (
     <Router>
-      <Navbar />
+      {/* for seller */}
+      {currentUser?.role === "Seller" && (
+        <>
+          <SellerDashboard />
+        </>
+      )}
 
-      <Routes>
+      {/* for customer  */}
+      {currentUser?.role === "Customer" && (
+        <>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<FirstPage />} />
+            <Route path="/adminhome" element={<FirstPage />} />
+            <Route path="/opencart" element={<Cart />} />
+            {/* <Route path="/addproduct" element={<AddProducts />} /> */}
+            <Route path="/checkoutsteps/:Id" element={<CheckoutSteps />} />
+            <Route path="/placeorderfinalpage" element={<FinalOrderedPage />} />
+            <Route
+            path="/particularproduct/:encodedImage/:productId"
+            element={<ParticularProduct />}
+          />
+          <Route path="/search" element={<Search />} />
+          <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/logout" element={<Logout />} />
+          </Routes>
+        </>
+      )}
+      
+      {!currentUser?.email && (<>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<FirstPage />} />
+          {/* <Route path="/decide" element={<FirstPage />} /> */}
+          <Route path="/logincustomer" element={<Login role={"Customer"} />} />
+          <Route
+            path="/registercustomer"
+            element={<Register role={"Customer"} />}
+          />
+          <Route path="/loginseller" element={<Login role={"Seller"} />} />
+          <Route
+            path="/registerseller"
+            element={<Register role={"Seller"} />}
+          />
+          
+          <Route
+            path="/particularproduct/:encodedImage/:productId"
+            element={<ParticularProduct />}
+          />
+          <Route path="/search" element={<Search />} />
+          <Route path="/buyingorcartingwithoutlogin" element={<BuyingCartingWithoutLogin/>} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+        </>
+      )}
+      
+
+      {/* <Routes>
         <Route element={<PrivateComponent />}>
           <Route path="/" element={<FirstPage />} />
           <Route path="/adminhome" element={<FirstPage />} />
@@ -38,15 +95,6 @@ function App() {
           <Route path="/placeorderfinalpage" element={<FinalOrderedPage/>} />
           <Route path="/logout" element={<Logout />} />
         </Route>
-
-        {/* for seller  mathi privatecomponent lai change gari bati lai 
-        heddu padde ho first page lai ya le bati aaun padde ho bamun ko 
-        seller section lai heddo padde ho*/}
-        {currentUser?.role == "Seller" && (
-          <Route>
-            <Route path="/addproduct" element={<AddProducts />} />
-          </Route>
-        )}
 
         {!currentUser?.email && (
           <Route>
@@ -72,7 +120,7 @@ function App() {
           element={<ParticularProduct />}
         />
         <Route path="/search" element={<Search />} />
-      </Routes>
+      </Routes> */}
     </Router>
   );
 }

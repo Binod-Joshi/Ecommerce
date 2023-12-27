@@ -18,10 +18,12 @@ mongoose.connect(process.env.MONGO_URL, {
 
 const authRoute = require("./routes/auth");
 const authAdminp = require("./routes/admin/productsRelated");
+const authSeller = require("./routes/admin/ProductOfSingleSeller");
 const authAdminShippingRelated = require("./routes/admin/shippingRelated");
 
 app.use("/auth",authRoute);
 app.use("/auth/sellerp",authAdminp);
+app.use("/auth/seller",authSeller) // products of particular seller
 app.use("/auth/cshipping",authAdminShippingRelated);
 
 app.listen(5000,() => {
