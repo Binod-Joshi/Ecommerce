@@ -377,8 +377,9 @@ export const updatingProduct = (fields) => async (dispatch) => {
     console.log(result);
     if (result._id) {
       console.log(result);
-      // Do something with the result if needed
       dispatch(authGetParticularProductDetails(result));
+    }else{
+      dispatch(authFailed("Failed to update.try again after a sometime."))
     }
   } catch (error) {
     console.error("Network Error:", error);
