@@ -14,23 +14,24 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../store/userRelated/userHandle';
+import { useState } from 'react';
+import { authInitial } from '../../store/productRelated/productSlice';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { CircularProgress, IconButton, InputAdornment } from '@mui/material';
+import './Login.css'
 
 const defaultTheme = createTheme();
 
 export default function Login({role}) {
-  const {status,loading} = useSelector((state) => state.user);
+  const {status,response,error,loading} = useSelector((state) => state.user);
+  const [checkField, setCheckField] = useState("");
+  const [message, setMessage] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(role);
 
   const updatedrole = role.charAt(0).toLowerCase()+role.slice(1);
-
-  React.useEffect(() => {
-    console.log(status);
-    if(status === "success"){
-      navigate(`/`);
-    }
-  },[status])
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -45,6 +46,32 @@ export default function Login({role}) {
     const fields = { password, email,role };
     dispatch(loginUser(fields));
   };
+
+  React.useEffect(() => {
+    console.log(status);
+    if(status === "success"){
+      dispatch(authInitial());
+      navigate(`/`);
+    }else if(status === "failed"){
+      setMessage(true);
+      setCheckField(response);
+      setTimeout(()=> {
+        setMessage(false);
+        setCheckField("");
+        dispatch(authInitial())
+      },5000)
+    }else if(status === "error"){
+      setMessage(true);
+      setCheckField(error+"Network problem!");
+      setTimeout(() => {
+        setMessage(false);
+        setCheckField(""); // also done by without need of checkfield
+        dispatch(authInitial());
+      },5000)
+    }
+  },[status])
+
+  console.log(status,response);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -80,10 +107,24 @@ export default function Login({role}) {
               fullWidth
               name="password"
               label="Password"
-              type="password"
+              type={toggle?"text":"password"}
               id="password"
               autoComplete="current-password"
+              InputProps={{
+                endAdornment: (
+                    <InputAdornment position="end">
+                        <IconButton onClick={() => setToggle(!toggle)}>
+                            {toggle ? (
+                                <Visibility />
+                            ) : (
+                                <VisibilityOff />
+                            )}
+                        </IconButton>
+                    </InputAdornment>
+                ),
+            }}
             />
+             {message && <p className='errorlogin courseDetail' style={{color:"red",marginTop:"5px"}}>{checkField}</p>}
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -94,7 +135,7 @@ export default function Login({role}) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {loading ?<CircularProgress size={24} color="inherit" />: "Sign In"}
             </Button>
             <Grid container>
               <Grid item xs>

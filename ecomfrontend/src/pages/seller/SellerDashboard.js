@@ -19,8 +19,9 @@ import SellerHomePage from "./SellerHomePage";
 import AddProducts from "../products/AddProducts";
 import Profile from "../forms/setting/Profile";
 import SellerProducts from "./SellerProducts";
-// import { getProductOfSeller } from "../../store/productRelated/productHandle";
 import ParticularProduct from "../products/ParticularProduct";
+
+// login and register mai kam gaddo xa message show gadde ki
 
 const SellerDashboard = () => {
   // const dispatch = useDispatch();
@@ -92,7 +93,7 @@ const SellerDashboard = () => {
                 <LocalMallIcon
                   sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
                 />
-                SHOPCART
+                FusionFashion
               </NavLogo>
             </Typography>
 
@@ -124,7 +125,7 @@ const SellerDashboard = () => {
                 <LocalMallIcon
                   sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
                 />
-                SHOPCART
+                FusionFashion
               </NavLogo>
             </Typography>
 
@@ -159,22 +160,6 @@ const SellerDashboard = () => {
               path="/particularproduct/:encodedImage/:productId"
               element={<ParticularProduct />}
             />
-
-            {/* <Route path="/Seller/addproduct" element={<AddProduct />} />
-                        <Route path="/Seller/products" element={<ShowProducts />} />
-                        <Route path="/Seller/products/product/:id" element={<ViewProductSeller />} />
-
-                        {
-                            currentRole === "Shopcart" &&
-                            <>
-                                <Route path="/Seller/shopcart" element={<ShopcartSpecial />} />
-                                <Route path="/Seller/uploadproducts" element={<Products productData={productDataList} />} />
-                            </>
-                        }
-
-                        <Route path="/Seller/orders" element={<ShowOrders />} />
-                        <Route path="/Seller/orders/customers/:id" element={<ShowCustomers />} />
-                        <Route path="/Seller/orders/product/:id" element={<ViewProductSeller />} /> */}
 
             <Route path="/logout" element={<Logout />} />
           </Routes>

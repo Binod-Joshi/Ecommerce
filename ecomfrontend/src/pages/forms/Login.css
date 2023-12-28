@@ -1,0 +1,6 @@
+.errorlogin{
+    display: flex;
+    justify-content: center;
+    color: red;
+    margin-top: 2px;
+  }

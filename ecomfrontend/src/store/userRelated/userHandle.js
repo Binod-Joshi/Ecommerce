@@ -18,11 +18,11 @@ export const loginUser = (fields) => async (dispatch) => {
     if(result.email){
       dispatch(authSuccess(result));
     }else{
-      dispatch(authFailed(result));
+      dispatch(authFailed(result.message));
     }
   } catch (error) {
     console.log(error);
-    dispatch(authError(error));
+    dispatch(authError(error.message));
   }
 };
 
@@ -43,10 +43,10 @@ export const RegisterUser = (fields) => async(dispatch) => {
     if(result.email){
       dispatch(authSuccess(result));
     }else{
-      dispatch(authFailed(result));
+      dispatch(authFailed(result.message));
     }
   } catch (error) {
-    dispatch(authError(error));
+    dispatch(authError(error.message));
   }
 }
 
@@ -57,3 +57,4 @@ export const LogoutUser = () => async(dispatch) => {
     console.log(error);
   }
 }
+
