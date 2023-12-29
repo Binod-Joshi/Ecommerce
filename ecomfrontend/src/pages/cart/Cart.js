@@ -236,7 +236,7 @@ const Cart = () => {
           </StyledDivForCartOnly>
 
           {/* total price section */}
-          <Card style={{ width: "380px", margin: "20px 0", height: "390px" }}>
+          <Card style={{ width: "375px", margin: "20px 0", height: "390px" }}>
             <div>
               <p style={{ padding: "0 10px", fontSize: "large" }}>
                 PRICE DETAILS
