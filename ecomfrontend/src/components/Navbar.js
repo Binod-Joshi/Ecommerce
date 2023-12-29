@@ -127,7 +127,7 @@ const Navbar = () => {
                   duration={500}
                   onClick={homeHandler}
                 >
-                  FusionFashion
+                  <p style={{fontSize:"15px"}}>FusionFashion</p>
                 </NavLogo>
               </Typography>
             </HomeContainer>

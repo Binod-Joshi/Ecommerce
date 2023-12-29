@@ -124,6 +124,7 @@ const Cart = () => {
     
   }
 
+
   return (
     <>
       {loading ? (
@@ -137,39 +138,28 @@ const Cart = () => {
           {" "}
           <h1>Loading...</h1>
         </div>
-      ) : cartProductList?.length > 0 ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: "#e4e7ed",
-          }}
+      ) : cartProductList?.length > 0 ? (<>
+        <StyledDivForCart
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
-              padding: "20px 0",
-              width: "66vw",
-            }}
+          <StyledDivForCartOnly
           >
-            <Card sx={{ maxWidth: "65vw", margin: "0 5% 0 13%" }}>
+            <Card sx={{ maxWidth: "95vw", margin: "0 5% 0 5%" }}>
               <ScrollableParagraph>
                  {(updatedCartProducts?.length === 0 ? cartProductList : updatedCartProducts)?.map((cards, index) => (
-                  <Card key={index} sx={{ maxWidth: "65vw" }}>
+                  <Card key={index} sx={{ maxWidth: "94vw" }}>
                     <div className="outerCard">
                       <CardMedia
                         component="img"
                         height="200"
-                        style={{ maxWidth: "50%" }}
+                        style={{ width: "90%" }}
                         image={cards?.product?.image}
                         alt="green iguana"
                       />
 
                       <CardContent
                         style={{
-                          width: `calc(50% - 16px)`,
+                          // width: `calc(50% - 16px)`,
+                          width:`85%`,
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-between",
@@ -198,14 +188,7 @@ const Cart = () => {
                             </span>
                           </Typography>
                         </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignContent: "center",
-                            gap: "40px",
-                          }}
-                        >
+                        <StyledDivForButton>
                           <Button variant="contained"
                           onClick={() => handleBuyFromCart(cards?.product?._id)}
                           >
@@ -213,7 +196,7 @@ const Cart = () => {
                             <BoltIcon style={{ marginRight: "5px" }} />
                             BUY NOW
                           </Button>
-                          <StyledButton
+                          <StyledButton className="buttonStyle"
                             variant="contained"
                             onClick={() => handleRemoveFromCart(cards?._id)}
                           >
@@ -222,7 +205,7 @@ const Cart = () => {
                             />
                             Remove
                           </StyledButton>
-                        </div>
+                        </StyledDivForButton>
                       </CardContent>
                     </div>
 
@@ -250,10 +233,10 @@ const Cart = () => {
                 </Button>
               </div>
             </Card>
-          </div>
+          </StyledDivForCartOnly>
 
           {/* total price section */}
-          <Card style={{ width: "400px", margin: "20px 0", height: "390px" }}>
+          <Card style={{ width: "380px", margin: "20px 0", height: "390px" }}>
             <div>
               <p style={{ padding: "0 10px", fontSize: "large" }}>
                 PRICE DETAILS
@@ -295,7 +278,8 @@ const Cart = () => {
               <p>You will save ₹{totalSaveIncludingDelivery} on this order</p>
             </div>
           </Card>
-        </div>
+        </StyledDivForCart>
+        </>
       ) : (
         <div
           style={{
@@ -313,3 +297,38 @@ const Cart = () => {
 };
 
 export default Cart;
+const StyledDivForCart = styled.div`
+display: flex;
+flex-direction: row;
+background-color: #e4e7ed;
+
+@media only screen and (max-width: 768px) {
+  display: flex;
+  flex-direction: column;
+  background-color: #e4e7ed;
+  maxwidth:100vw;
+}
+`;
+const StyledDivForCartOnly = styled.div`
+display:flex;
+flexdirection:column;
+gap:10px;
+padding:20px 0;
+width:66vw;
+
+@media only screen and (max-width:768px){
+  display:flex;
+  flexdirection:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  // padding:20px 0;
+  width:98vw;
+}
+`;
+
+const StyledDivForButton = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-content: "center";
+`;

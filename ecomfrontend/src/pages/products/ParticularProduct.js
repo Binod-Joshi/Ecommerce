@@ -24,21 +24,37 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  // align-items: center;
   padding: 20px;
   gap: 10px;
   background-color: #e4e7ed;
 
   & > div:first-child {
-    flex: 0 0 40vw; /* Set the first card to 30vw width */
+    flex: 0 0 40vw;
     max-height: 75vh;
   }
 
   & > div:last-child {
-    flex: 1; /* Make the second div take up remaining width */
-    padding-left: 20px; /* Add some padding for separation */
+    flex: 1;
+    padding-left: 20px;
+  }
+
+  @media only screen and (max-width:768px) {
+      display: flex; /* Add semicolon here */
+      justify-content: center; /* Add semicolon here */
+      align-items: center; /* Add semicolon here */
+      gap: 20px;
+      flex-direction: column;
+
+      & > div:first-child {
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        width:99vw;
+        height:80vh;
+      }
   }
 `;
+
 
 export const StyledButton = styled(Button)`
   && {
@@ -84,7 +100,6 @@ const ParticularProduct = () => {
   }, [dispatch]);
 
   const handleAddToCart = () => {
-    console.log("adding to cart.");
     if (currentUser?.role === null || currentUser?.role === undefined) {
       navigate(`/buyingorcartingwithoutlogin`);
     } else {
@@ -95,7 +110,6 @@ const ParticularProduct = () => {
       dispatch(saveToCart(fields));
       const updatednum = cartProductLength + 1;
       dispatch(getCartProductLengthHandle(updatednum));
-      console.log(cartProductLength);
     }
   };
 
@@ -140,13 +154,11 @@ const ParticularProduct = () => {
   }, [messageResponse]);
 
   const handleRemoveProduct = () => {
-    console.log("removing product");
     const id = particularProductData?._id;
     dispatch(RemovingProductFromSellerList(id));
     navigate(-1);
   };
   const CancelHandle = () => {
-    console.log("div harayo");
     setClickButton(false);
   }
 
@@ -173,7 +185,8 @@ const ParticularProduct = () => {
         ""
       )}
       <StyledDiv>
-        <Card sx={{ maxWidth: "35vw" }}>
+        <div >
+        <Card sx={{ maxWidth: "98vw" }}>
           <CardActionArea>
             <CardMedia
               style={{ height: "65vh", objectFit: "contain" }}
@@ -189,7 +202,7 @@ const ParticularProduct = () => {
                 <AddShoppingCartIcon style={{ marginRight: "5px" }} />
                 update Product
               </StyledButton>
-              <Button variant="contained" onClick={(e)=> {selecteButtonHandler("remove")}}>
+              <Button variant="contained" onClick={(e)=> {selecteButtonHandler("remove")}} style={{marginLeft:'2px'}}>
                 {" "}
                 <BoltIcon style={{ marginRight: "5px" }} />
                 Remove
@@ -203,7 +216,7 @@ const ParticularProduct = () => {
                 <AddShoppingCartIcon style={{ marginRight: "5px" }} />
                 ADD TO CART
               </StyledButton>
-              <Button
+              <Button style={{marginLeft:'2px'}}
                 variant="contained"
                 onClick={handleBuyFromParticularProduct}
               >
@@ -214,6 +227,7 @@ const ParticularProduct = () => {
             </CardContent>
           )}
         </Card>
+        </div>
 
         {/* // second card */}
 
@@ -307,11 +321,8 @@ const ParticularProduct = () => {
           Cancel
         </Button>
       </StyledButtonContainerr></>:<><StyledDivOfUpdateQuantity>
-      {/* <StyledParagraph style={{fontSize:"20px",fontFamily:"sans-serif"}}>Current Quantity: {particularProductData?.quantity}</StyledParagraph>
-      <TextField id="outlined-basic" label="update quantity" variant="outlined" onChange={handleOnChangeForQuantity} /> */}
       <AddProducts value={"updateproduct"} pData={particularProductData} passingFunctionForDivRemove={passingFunctionForDivRemove}/>
       <>
-      {/* {messageResponse !== null && <StyledParagraph style={{fontSize:"15px",color:"red"}}>{messageResponse}</StyledParagraph> } */}
       </>
       </StyledDivOfUpdateQuantity></> }
 

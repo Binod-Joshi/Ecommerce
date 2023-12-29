@@ -3,16 +3,12 @@ import { Box, Container, styled } from "@mui/material";
 import Slide from "./Slide";
 import Banner from "./Banner";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductOfCart, getProductOfSeller } from "../store/productRelated/productHandle";
+import { getProductOfCart, getProductOfSeller, getProducts } from "../store/productRelated/productHandle";
 import ProductsMenu from "./ProductsMenu";
 import { NewtonsCradle } from "@uiball/loaders";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const adURL =
-    "https://rukminim1.flixcart.com/flap/464/708/image/1f03e99f6dc9f7a6.jpg?q=70";
-
-  const dispatch = useDispatch();
 
   const { currentUser, responseProducts, error } = useSelector(
     (state) => state.user
@@ -22,16 +18,22 @@ const Home = () => {
   );
 
   const [showNetworkError, setShowNetworkError] = useState(false);
+  const dispatch = useDispatch();
   const Id = currentUser?._id;
 
+  const adURL =
+  "https://rukminim1.flixcart.com/flap/464/708/image/1f03e99f6dc9f7a6.jpg?q=70";
+
   useEffect(() => {
+    dispatch(getProducts());
     if (Id !== undefined) {
-      console.log(Id);
+      if(currentUser?.role === "Customer"){
       dispatch(getProductOfCart(Id));
-      dispatch(getProductOfSeller(Id));
+      }else if(currentUser.role === "Seller"){
+        dispatch(getProductOfSeller(Id));
+      }
     }
   }, []);
-  console.log(listOfProductOfSingleSeller);
 
   useEffect(() => {
     if (error) {

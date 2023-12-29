@@ -21,9 +21,9 @@ const ProductsMenu = ({ dropName }) => {
 
     const { productData,categoriesList } = useSelector(state => state.product);
 
-    useEffect(() => {
-        dispatch(getProducts());
-    }, [])
+    // useEffect(() => {
+    //     dispatch(getProducts());
+    // }, [])
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -46,7 +46,6 @@ const ProductsMenu = ({ dropName }) => {
     }, [isUniqueItemsReady, uniqueItems.length]);
 
     const catHandler = (key) => {
-        console.log(key);
         setAnchorEl(null);
         if (dropName === "Categories") {
             dispatch(getSearchedProducts(key));
