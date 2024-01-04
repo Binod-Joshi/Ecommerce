@@ -1,22 +1,35 @@
 import {
+  ThemeProvider,
+  createTheme,
+  styled,
+  alpha,
+  // Add the missing import here
+} from "@mui/material/styles";
+import {
   Divider,
   Box,
   Typography,
   Button,
-  styled,
   Container,
+  useMediaQuery,
 } from "@mui/material";
+
 
 import { Link, useNavigate } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useSelector } from "react-redux";
+
+const theme = createTheme();
+
+
 const Slide = ({ products, title }) => {
   const {currentUser} = useSelector((state) => state.user);
-  // i have to get products as props
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   
   return (
+    <ThemeProvider theme={theme}>
     <Component>
       <Deal>
         <DealText>{title}</DealText>
@@ -34,8 +47,8 @@ const Slide = ({ products, title }) => {
       <Divider />
 
       <Carousel
-        swipeable={true}
-        draggable={true}
+        swipeable={isMobileOrTablet}
+        draggable={isMobileOrTablet}
         responsive={responsive}
         centerMode={true}
         infinite={true}
@@ -90,6 +103,7 @@ const Slide = ({ products, title }) => {
           })}
       </Carousel>
     </Component>
+    </ThemeProvider>
   );
 };
 
