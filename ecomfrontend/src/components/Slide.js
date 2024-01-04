@@ -11,39 +11,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-
 const Slide = ({ products, title }) => {
-  const { currentUser } = useSelector((state) => state.user);
+  const {currentUser} = useSelector((state) => state.user);
+  // i have to get products as props
   const navigate = useNavigate();
-
-  const [scrollContainer, setScrollContainer] = useState(null);
-
-  useEffect(() => {
-    if (scrollContainer) {
-      const handleWheel = (event) => {
-        const container = scrollContainer;
-        const containerScrollPosition = container.scrollLeft;
-
-        container.scrollTo({
-          top: 0,
-          left: containerScrollPosition + event.deltaY,
-          behavior: "smooth",
-        });
-      };
-
-      // Add the wheel event listener to the scroll container
-      scrollContainer.addEventListener("wheel", handleWheel);
-
-      // Remove the event listener when the component unmounts
-      return () => {
-        scrollContainer.removeEventListener("wheel", handleWheel);
-      };
-    }
-  }, [scrollContainer]);
-
+  
   return (
-    <Component ref={(ref) => setScrollContainer(ref)}>
+    <Component>
       <Deal>
         <DealText>{title}</DealText>
 
@@ -60,7 +34,7 @@ const Slide = ({ products, title }) => {
       <Divider />
 
       <Carousel
-        swipeable={false}
+        swipeable={true}
         draggable={false}
         responsive={responsive}
         centerMode={true}
@@ -73,7 +47,8 @@ const Slide = ({ products, title }) => {
         dotListClass="custom-dot-list-style"
         itemClass="carousel-item-padding-40-px"
       >
-        {products?.length > 0 &&
+       
+        {products?.length >0 &&
           products?.map((product, index) => {
             const image = product?.image || ""; // Handle undefined product or product.image
             const encodedImage = encodeURIComponent(image);
@@ -138,17 +113,7 @@ const responsive = {
 const Component = styled(Box)`
   margin-top: 10px;
   background: #ffffff;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: transparent transparent; /* For Firefox */
 `;
-
-// const Component = styled(Box)`
-//   margin-top: 10px;
-//   background: #ffffff;
-// `;
 
 const Deal = styled(Box)`
   display: flex;
