@@ -35,7 +35,7 @@ const Slide = ({ products, title }) => {
 
       <Carousel
         swipeable={true}
-        draggable={false}
+        draggable={true}
         responsive={responsive}
         centerMode={true}
         infinite={true}
