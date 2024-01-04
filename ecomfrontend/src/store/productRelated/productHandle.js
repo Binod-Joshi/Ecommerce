@@ -171,7 +171,7 @@ export const getSearchesProduct = (key) => async (dispatch) => {
 // save to cart
 export const saveToCart = (fields) => async (dispatch) => {
   try {
-    let result = await fetch("${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/savetocart", {
+    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerp/savetocart`, {
       method: "POST",
       body: JSON.stringify({ fields }), // Send the fields directly without JSON.stringify()
       headers: {
@@ -179,8 +179,11 @@ export const saveToCart = (fields) => async (dispatch) => {
       },
     });
     result = await result.json();
+    console.log(result);
     if (result?.message === "Successfully added to the cart.") {
       dispatch(authSuccess(result?.message));
+    }else{
+      authFailed("failed try again after some time");
     }
   } catch (error) {
     console.error("Network Error:", error);
