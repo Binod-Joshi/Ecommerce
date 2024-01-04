@@ -50,7 +50,7 @@ function App() {
             path="/particularproduct/:encodedImage/:productId"
             element={<ParticularProduct />}
           />
-          <Route path="/search" element={<Search />} />
+          {/* <Route path="/search" element={<Search />} /> */}
           <Route path="*" element={<Navigate to="/" />} />
             <Route path="/logout" element={<Logout />} />
           </Routes>
@@ -77,7 +77,7 @@ function App() {
             path="/particularproduct/:encodedImage/:productId"
             element={<ParticularProduct />}
           />
-          <Route path="/search" element={<Search />} />
+          {/* <Route path="/search" element={<Search />} /> */}
           <Route path="/buyingorcartingwithoutlogin" element={<BuyingCartingWithoutLogin/>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

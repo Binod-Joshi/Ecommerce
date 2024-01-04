@@ -16,7 +16,7 @@ import { Login, Logout, Shop2, Store } from "@mui/icons-material";
 
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Badge, Divider, Drawer, ListItemIcon } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { NavLogo } from "../utils/styles";
 import Search from "./Search";
@@ -25,11 +25,10 @@ import ProductsMenu from "./ProductsMenu";
 const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { cartProductLength } = useSelector((state) => state.product);
-
+  const [searchOpen,setSearchOpen] = React.useState(false);
   console.log(cartProductLength);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -88,20 +87,31 @@ const Navbar = () => {
           <Toolbar disableGutters>
             {/* MOBILE */}
 
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            {searchOpen?<NavLogo
+                to="top"
+                activeClass="active"
+                spy={true}
+                smooth={true}
+                offset={-70}
+                duration={500}
+                // onClick={homeHandler}
+                onClick={() => {setSearchOpen(false)}}
+
+              >
+                <p style={{fontSize:"15px",marginRight:"10px"}}>FF</p>
+              </NavLogo>:<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={() => {
-                  navigate("/search");
+                onClick={() => {setSearchOpen(true)
                 }}
                 color="inherit"
               >
                 <SearchIcon />
               </IconButton>
-            </Box>
+            </Box>}
 
             <HomeContainer>
               <Typography
@@ -118,17 +128,17 @@ const Navbar = () => {
                   textDecoration: "none",
                 }}
               >
-                <NavLogo
-                  to="top"
-                  activeClass="active"
-                  spy={true}
-                  smooth={true}
-                  offset={-70}
-                  duration={500}
-                  onClick={homeHandler}
-                >
-                  <p style={{fontSize:"15px"}}>FusionFashion</p>
-                </NavLogo>
+              {searchOpen?<Search/>:<NavLogo
+                to="top"
+                activeClass="active"
+                spy={true}
+                smooth={true}
+                offset={-70}
+                duration={500}
+                onClick={homeHandler}
+              >
+                <p style={{fontSize:"15px"}}>FusionFashion</p>
+              </NavLogo>}
               </Typography>
             </HomeContainer>
 

@@ -57,7 +57,7 @@ const Home = () => {
           },
         }}
       >
-        <ProductsMenu dropName="Categories" />
+        <ProductsMenu dropName="Categories" style={{marginLeft:"-2rem"}}/>
         {/* <ProductsMenu dropName="Products" /> */}
       </Container>
       {currentUser?.role !== "Seller" && (

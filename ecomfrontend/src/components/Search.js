@@ -5,10 +5,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getSearchesProduct } from '../store/productRelated/productHandle';
-import Home from './Home';
 
 const Search = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -34,7 +32,6 @@ const Search = () => {
                 </SearchIconWrapper>
             </SearchContainer>
            <div className='homeMode'>
-            <Home/>
            </div>
         </>
     );
@@ -48,11 +45,15 @@ const SearchContainer = styled(Box)`
   display: flex;
 
   @media (max-width: 768px) {
-    width: 100vw;
+    width: 68vw;
+    border-radius:6px;
   }
 `;
 
 const SearchIconWrapper = styled(Box)`
+  display:flex;
+  align-items:center;
+  justify-content:center;
   margin-left: auto;
   padding: 5px;
   display: flex;
@@ -66,6 +67,8 @@ const InputSearchBase = styled(InputBase)`
 
   @media (max-width: 768px) {
     width: 80vw;
+    font-size:16px;
+    
   }
 `;
 
