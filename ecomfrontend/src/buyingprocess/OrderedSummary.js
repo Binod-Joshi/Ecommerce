@@ -19,7 +19,7 @@ const OrderSummary = ({ handleNext, handleBack }) => {
     console.log(productID)
 
     const { currentUser } = useSelector((state) => state?.user);
-    const {gettedShippingData,particularProductData,cartProductList} = useSelector((state) => state?.product);
+    const {gettedShippingData,particularProductData,cartProductList,QuantityOfSingleProductToBuy} = useSelector((state) => state?.product);
 
     React?.useEffect(() => {
         if (productID !== 0 && productID !== '0' && productID) {
@@ -30,12 +30,12 @@ const OrderSummary = ({ handleNext, handleBack }) => {
         }
     }, [productID, dispatch]);
     console.log(particularProductData);
-    console.log(gettedShippingData);
+    // console.log(gettedShippingData);
     console.log(cartProductList)
 
     let cartDetails = cartProductList;
     let shippingData = gettedShippingData;
-    console.log(shippingData);
+    // console.log(shippingData);
     const totalQuantity = cartDetails?.reduce((total, item) => total + item?.quantity, 0);
     const totalOGPrice = cartDetails?.reduce((total, item) => total + (item?.quantity * item?.product?.cost), 0);
     const totalDiscounPrice = cartDetails?.reduce((total, item) => total + (item?.quantity * ((item?.product?.discount/100)*item?.product?.cost)), 0);
@@ -49,15 +49,15 @@ const OrderSummary = ({ handleNext, handleBack }) => {
                 <React.Fragment>
                     <List disablePadding>
                         <ListItem sx={{ py: 1, px: 0 }}>
-                            <ListItemText primary={particularProductData?.name} secondary={`Quantity: 1`} />
+                            <ListItemText primary={particularProductData?.name} secondary={`Quantity: ${QuantityOfSingleProductToBuy}`} />
                             <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                                {`₹${particularProductData?.cost && particularProductData?.cost * 1}`} {/* if many quantity dont multify by 1 */}
+                                {`₹${particularProductData?.cost && particularProductData?.cost * QuantityOfSingleProductToBuy}`} 
                             </Typography>
                         </ListItem>
                         <ListItem sx={{ py: 1, px: 0 }}>
                             <ListItemText primary="Discount" />
                             <Typography variant="subtitle1" sx={{ color: "green" }}>
-                                ₹{particularProductData?.cost && particularProductData?.cost * (particularProductData?.discount/100)}
+                                ₹{particularProductData?.cost && (particularProductData?.cost * (particularProductData?.discount/100))* QuantityOfSingleProductToBuy}
                             </Typography>
                         </ListItem>
                         <ListItem sx={{ py: 1, px: 0 }}>
@@ -69,7 +69,7 @@ const OrderSummary = ({ handleNext, handleBack }) => {
                         <ListItem sx={{ py: 1, px: 0 }}>
                             <ListItemText primary="Total Amount" />
                             <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                                ₹{particularProductData?.cost && particularProductData?.cost - (particularProductData?.cost * (particularProductData?.discount/100))}
+                                ₹{particularProductData?.cost && (particularProductData?.cost - (particularProductData?.cost * (particularProductData?.discount/100))) * QuantityOfSingleProductToBuy}
                             </Typography>
                         </ListItem>
                     </List>
@@ -132,6 +132,13 @@ const OrderSummary = ({ handleNext, handleBack }) => {
                 <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                     Back
                 </Button>
+                {/* <Button
+                    variant="contained"
+                    onClick={}
+                    sx={{ mt: 3, ml: 1 }}
+                >
+                    Next
+                </Button> */}
                 <Button
                     variant="contained"
                     onClick={handleNext}

@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { useDispatch, useSelector } from "react-redux";
-import { authRemoveProductFromCart, authUpdateQuantityOfProductInCart, getCartProductLengthHandle, getProductOfCart,setBuyedProduct } from "../../store/productRelated/productHandle";
+import { authRemoveProductFromCart, authUpdateQuantityOfProductInCart, getCartProductLengthHandle, getProductOfCart,setBuyedProduct, setQuantityOfSingleProductToBuy } from "../../store/productRelated/productHandle";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -119,6 +119,11 @@ const Cart = () => {
 
   const handleBuyFromCart = (Id) => {
     console.log(Id);
+    console.log(cartProductList);
+    const productWithMatchingId = cartProductList?.find((product) => product?.product?._id === Id);
+    const quantity = productWithMatchingId?.quantity;
+    console.log(quantity);
+    dispatch(setQuantityOfSingleProductToBuy(quantity));
     navigate(`/checkoutsteps/${Id}`)
     // dispatch(setBuyedProduct(id));
     

@@ -22,6 +22,8 @@ import CheckoutSteps from "./buyingprocess/CheckOutSteps";
 import FinalOrderedPage from "./buyingprocess/FinalOrderedPage";
 import SellerDashboard from "./pages/seller/SellerDashboard";
 import BuyingCartingWithoutLogin from "./components/BuyingCartingWithoutLogin";
+import SuccessfullPaymentPage from "./components/SuccessfullPaymentPage";
+import Wait from "./buyingprocess/Wait";
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -43,14 +45,15 @@ function App() {
             <Route path="/" element={<FirstPage />} />
             <Route path="/adminhome" element={<FirstPage />} />
             <Route path="/opencart" element={<Cart />} />
-            {/* <Route path="/addproduct" element={<AddProducts />} /> */}
             <Route path="/checkoutsteps/:Id" element={<CheckoutSteps />} />
             <Route path="/placeorderfinalpage" element={<FinalOrderedPage />} />
             <Route
             path="/particularproduct/:encodedImage/:productId"
             element={<ParticularProduct />}
           />
-          {/* <Route path="/search" element={<Search />} /> */}
+          <Route path="/paymentsuccess" element={<SuccessfullPaymentPage result={"Successfull"}/>} />
+          <Route path="/paymentfailure" element={<SuccessfullPaymentPage result={"Failure"}/>} />
+          <Route path="/waiting" element={<Wait/> } />
           <Route path="*" element={<Navigate to="/" />} />
             <Route path="/logout" element={<Logout />} />
           </Routes>
@@ -83,44 +86,6 @@ function App() {
         </Routes>
         </>
       )}
-      
-
-      {/* <Routes>
-        <Route element={<PrivateComponent />}>
-          <Route path="/" element={<FirstPage />} />
-          <Route path="/adminhome" element={<FirstPage />} />
-          <Route path="/opencart" element={<Cart />} />
-          <Route path="/addproduct" element={<AddProducts />} />
-          <Route path="/checkoutsteps/:Id" element={<CheckoutSteps />} />
-          <Route path="/placeorderfinalpage" element={<FinalOrderedPage/>} />
-          <Route path="/logout" element={<Logout />} />
-        </Route>
-
-        {!currentUser?.email && (
-          <Route>
-            <Route path="/decide" element={<FirstPage />} />
-            <Route
-              path="/logincustomer"
-              element={<Login role={"Customer"} />}
-            />
-            <Route
-              path="/registercustomer"
-              element={<Register role={"Customer"} />}
-            />
-            <Route path="/loginseller" element={<Login role={"Seller"} />} />
-            <Route
-              path="/registerseller"
-              element={<Register role={"Seller"} />}
-            />
-          </Route>
-        )}
-        <Route path="*" element={<Navigate to="/" />} />
-        <Route
-          path="/particularproduct/:encodedImage/:productId"
-          element={<ParticularProduct />}
-        />
-        <Route path="/search" element={<Search />} />
-      </Routes> */}
     </Router>
   );
 }

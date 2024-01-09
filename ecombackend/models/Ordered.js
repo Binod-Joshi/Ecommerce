@@ -1,9 +1,40 @@
 const mongoose = require("mongoose");
 
 const orderedSchema = new mongoose.Schema({
-    ordered:{
+    order_id:{
+        type:String,
+        required:true,
+    },
+    buyer:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Cart", //ref product bate banaun padde ho
+        ref:"Customer",
+        required:true,
+    },
+    shippingData: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"ShippingAddress",
+        required:true,
+    },
+    orderedProducts: [
+        {
+            product: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Product",
+                required: true,
+            },
+            quantity: {
+                type: Number,
+                required: true,
+            },
+            seller:{
+                type:mongoose.Schema.Types.ObjectId,
+                ref: "Seller",
+                required: true,
+            },
+        }
+    ],
+    paymentInfo:{
+        type:Number,
         required:true,
     },
 },

@@ -200,11 +200,8 @@ router.put("/removeproductfromCart/:id", async(req,res) => {
 router.post("/settingOrderedProduct", async(req,res) => {
     try {
         const {id} = req.body;
-        console.log(id);
-        // do only after the address ....
         let result = await Ordered.create({ordered:id});
         result = await Ordered.findById(result._id).populate("ordered");
-        // result = await Ordered.findById(result._id).populate({path:"ordered",populate:{path:"customer product",},}).exec();
         console.log(result);
         if(result._id){
             res.status(200).send({message : "order is placed"})
@@ -212,6 +209,6 @@ router.post("/settingOrderedProduct", async(req,res) => {
         
     } catch (error) {
         console.log(error);
-        res.status(500).json(error); 
+        res.status(500).json(error);
     }
-})
+});

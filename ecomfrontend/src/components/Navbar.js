@@ -329,22 +329,22 @@ const Navbar = () => {
                   transformOrigin={{ horizontal: "right", vertical: "top" }}
                   anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
-                  <MenuItem onClick={() => navigate("/Profile")}>
+                  <MenuItem onClick={() => navigate("/Profile")} >
                     <Avatar />
-                    <Link to="/Profile">Profile</Link>
+                    <Link to="/Profile" className="link">Profile</Link>
                   </MenuItem>
-                  <MenuItem onClick={() => navigate("/Orders")}>
+                  <MenuItem onClick={() => navigate("/Orders")} >
                     <ListItemIcon>
                       <Shop2 fontSize="small" />
                     </ListItemIcon>
-                    <Link to="/Orders">My Orders</Link>
+                    <Link to="/Orders" className="link" >My Orders</Link>
                   </MenuItem>
                   <Divider />
                   <MenuItem onClick={() => navigate("/Logout")}>
                     <ListItemIcon>
                       <Logout fontSize="small" />
                     </ListItemIcon>
-                    <Link to="/Logout">Logout</Link>
+                    <Link to="/Logout" className="link">Logout</Link>
                   </MenuItem>
                 </Menu>
               </Box>

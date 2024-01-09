@@ -12,6 +12,12 @@ const initialState = {
   cartProductLength:null,
   gettedShippingData:null,
   listOfProductOfSingleSeller:[],
+  orderCreationDetails:null,
+  key:null,
+  QuantityOfSingleProductToBuy:null,
+  noOfOrderOfProductOfSeller:0,
+  noOfAddedProductToCartForSeller:0,
+  listOfAddedProductToCartForSeller:[],
 };
 
 const productSlice = createSlice({
@@ -82,6 +88,25 @@ const productSlice = createSlice({
       state.status = "idle";
       state.loading = false;
     },
+    authOrderCreation: (state, action) => {
+      state.orderCreationDetails = action?.payload;
+      state.loading = false;
+      // state.status = "success"
+    },
+    authGetKey: (state, action) => {
+      state.key = action?.payload;
+      state.loading = false;
+    },
+    authSetQuantityOfSingleProductToBuy: (state, action) => {
+      state.QuantityOfSingleProductToBuy = action?.payload;
+    },
+    authGetNoOfOrderOfSeller: (state, action) => {
+      state.noOfOrderOfProductOfSeller = action?.payload;
+    },
+    authGetNoOfAddedProductToCartForSeller: (state, action) => {
+      state.noOfAddedProductToCartForSeller = action?.payload?.length;
+      state.listOfAddedProductToCartForSeller = action?.payload;
+    }
   },
 });
 
@@ -99,6 +124,12 @@ export const {
   authCartProductLengthHandler,
   authgettingShippingData,
   authGettedProductOfSingleSeller,
+  authOrderCreation,
+  authGetKey,
+  authSetQuantityOfSingleProductToBuy,
+  authGetNoOfOrderOfSeller,
+  authGetNoOfAddedProductToCartForSeller,
+
 } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

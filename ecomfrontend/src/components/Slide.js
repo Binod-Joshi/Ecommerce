@@ -34,14 +34,14 @@ const Slide = ({ products, title }) => {
       <Deal>
         <DealText>{title}</DealText>
 
-        <ViewAllButton
+        {/* <ViewAllButton
           variant="contained"
           onClick={() => {
             navigate("/Products");
           }}
         >
           View All
-        </ViewAllButton>
+        </ViewAllButton> */}
       </Deal>
 
       <Divider />

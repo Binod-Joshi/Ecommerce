@@ -45,7 +45,7 @@ const SearchContainer = styled(Box)`
   display: flex;
 
   @media (max-width: 768px) {
-    width: 68vw;
+    width: 50vw;
     border-radius:6px;
   }
 `;

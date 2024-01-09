@@ -14,6 +14,7 @@ import {
   getCartProductLengthHandle,
   particularProductDetails,
   saveToCart,
+  setQuantityOfSingleProductToBuy,
   settingAllToInitial,
   updatingQuantityOfProduct,
 } from "../../store/productRelated/productHandle";
@@ -128,6 +129,8 @@ const ParticularProduct = () => {
     if (currentUser?.role === null || currentUser?.role === undefined) {
       navigate(`/buyingorcartingwithoutlogin`);
     } else {
+      const quantity = 1;
+      dispatch(setQuantityOfSingleProductToBuy(quantity));
       navigate(`/checkoutsteps/${Id}`);
     }
   };
@@ -335,7 +338,7 @@ const ParticularProduct = () => {
 export default ParticularProduct;
 
 
-const StyledContainerr = styled.div`
+export const StyledContainerr = styled.div`
   position: fixed;
   top: 50%; /* Adjust as needed */
   left: 50%; /* Adjust as needed */
@@ -345,7 +348,7 @@ const StyledContainerr = styled.div`
   z-index: 1000;
 `;
 
-const StyledContentt = styled.div`
+export const StyledContentt = styled.div`
   /* Add any necessary styles for the content container */
   display: flex;
   align-items: center;
@@ -364,7 +367,7 @@ export const StyledButtonContainerr = styled.div`
   justify-content: space-around;
 `;
 
-const StyledParagraph = styled.p`
+export const StyledParagraph = styled.p`
   display: flex;
   align-items: center;
   justify-content: center;
