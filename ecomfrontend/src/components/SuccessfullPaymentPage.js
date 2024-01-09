@@ -16,18 +16,14 @@ const SuccessfullPaymentPage = ({ result }) => {
   const seachQuery = useSearchParams()[0];
 
   const referenceNum = seachQuery.get("reference");
-  // console.log(referenceNum); // ye mai agar payment id and order id same mai hoigya order hunxa natara ken
   if (referenceNum) {
-    console.log(referenceNum);
     const buyingDetails =
       JSON.parse(localStorage.getItem("buyingDetails")) || {};
     if (buyingDetails?.buyer) {
-      console.log(buyingDetails);
       dispatch(saveBuyingDetails(buyingDetails));
 
       const datas = buyingDetails?.orderedProducts;
       if (datas && datas?.length > 1) { //direct buy gargya lai bewasta gaddo xa
-        console.log(datas);
         const orderedDetails = {
           buyer: buyingDetails?.buyer,
           product: "deleteall",
@@ -35,20 +31,18 @@ const SuccessfullPaymentPage = ({ result }) => {
         let length = "morethan1";
         dispatch(removeProductFromCart(orderedDetails,length));
       } else {
-        console.log(datas);
         const orderedDetails = {
           buyer: buyingDetails?.buyer,
           product: datas?.product,
         };
         let length = "1";
-        console.log(orderedDetails);
         dispatch(removeProductFromCart(orderedDetails,length));
       }
 
       localStorage.removeItem('buyingDetails');
     }
   } else {
-    console.log("jd");
+    console.log("cheating");
   }
   return (
     <>

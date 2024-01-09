@@ -26,7 +26,6 @@ const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { cartProductLength } = useSelector((state) => state.product);
   const [searchOpen,setSearchOpen] = React.useState(false);
-  console.log(cartProductLength);
 
   const navigate = useNavigate();
 

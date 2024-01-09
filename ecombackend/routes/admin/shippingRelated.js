@@ -6,13 +6,11 @@ const ShippingAddress = require("../../models/ShippingAddress");
 const instance = require("../../razorpayInstance"); // to use import we have to use .mjs extension and we are not able to use require and import in a single file.
 const crypto = require("crypto");
 const mongoose = require('mongoose');
-// console.log(instance);
 
 router.post("/addupdateshippingdata", async (req, res) => {
   try {
     const { address, city, state, country, pinCode, phoneNo, customer } =
       req.body;
-    console.log(address, city, state, country, pinCode, phoneNo, customer);
 
     // Check if the shipping address already exists for the customer
     let existingShippingAddress = await ShippingAddress.findOne({
@@ -54,9 +52,7 @@ router.post("/addupdateshippingdata", async (req, res) => {
 router.get("/gettingshippingdata/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
-    console.log("getting", id);
     const result = await ShippingAddress.findOne({ customer: id });
-    console.log(result);
     res.status(200).send(result);
   } catch (error) {
     console.error(error);
@@ -110,7 +106,6 @@ router.post("/paymentverification", async (req, res) => {
       .digest("hex");
 
     const isAuthentic = expectedSignature === razorpay_signature;
-    // console.log(expectedSignature);
 
     if (isAuthentic) {
       // Database comes here
@@ -132,15 +127,14 @@ router.post("/paymentverification", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(400).json(error);
   }
 });
 
 router.get('/checkorderid/:order_id',async(req,res) => {
   try {
     const order_Id = req?.params?.order_id;
-    console.log(order_Id);
     let result = await Payment.find({razorpay_order_id:order_Id});
-    console.log(result+ " what ");
     if(result?.length){
     res.status(200).send({message:"orderId found"});
     }else{
@@ -182,13 +176,11 @@ router.put(`/removeproductfromcartafterpayment`, async(req, res) => {
     if(length === "morethan1"){
 
       await Cart.deleteMany({customer:buyerid});
-      console.log(length+ "many");
 
     }else if( length === "1"){
       const productt = orderedDetails?.product;
       const productid = new mongoose.Types.ObjectId(productt);
       await Cart.deleteOne({ $and: [{ customer: buyerid }, { product: productid }] });
-      console.log(length);
     }
     result = await Cart.find({buyer:buyerid});
     res.status(200).json(result);

@@ -163,7 +163,6 @@ router.get("/getcartproducts/:id", async(req,res) => {
 router.post("/updatingquantityofproductincart", async(req,res) => {
     try {
         const {id,quantity} = req.body;
-        console.log(id,quantity);
         let result = await Cart.findByIdAndUpdate(id,
             {$set:{quantity:quantity}},
             {new: true});
@@ -181,9 +180,7 @@ router.post("/updatingquantityofproductincart", async(req,res) => {
 router.put("/removeproductfromCart/:id", async(req,res) => {
     try {
         const id = req.params.id;
-        console.log(id);
         let result = await Cart.findOneAndDelete({_id:id});
-        console.log(result);
         if (result?._id) {
             res.status(200).send({ message: "Product is successfully removed." });
         } else {
@@ -202,7 +199,6 @@ router.post("/settingOrderedProduct", async(req,res) => {
         const {id} = req.body;
         let result = await Ordered.create({ordered:id});
         result = await Ordered.findById(result._id).populate("ordered");
-        console.log(result);
         if(result._id){
             res.status(200).send({message : "order is placed"})
         }

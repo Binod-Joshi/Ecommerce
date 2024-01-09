@@ -45,7 +45,6 @@ const Home = () => {
     }
   }, [error]);
 
-  console.log(loading);
 
   return (
     <div id="top">

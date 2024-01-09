@@ -184,7 +184,7 @@ export const saveToCart = (fields) => async (dispatch) => {
       },
     });
     result = await result.json();
-    console.log(result);
+    
     if (result?.message === "Successfully added to the cart.") {
       dispatch(authSuccess(result?.message));
     }else{
@@ -241,7 +241,7 @@ export const authUpdateQuantityOfProductInCart =
       result = await result.json();
 
       if (result.message === "quantity updated successfully.") {
-        console.log(result);
+        
       }
     } catch (error) {
       console.error("Network Error:", error);
@@ -263,9 +263,9 @@ export const authRemoveProductFromCart = (id) => async (dispatch) => {
       }
     );
     result = await result.json();
-    console.log(result);
+    
     if (result?.message === "product is successfully removed.") {
-      console.log(result);
+      
     }
   } catch (error) {
     console.error("Network Error:", error);
@@ -300,7 +300,7 @@ export const setBuyedProduct = (id) => async (dispatch) => {
       }
     );
     result = await result.json();
-    console.log(result);
+    
   } catch (error) {
     console.error("Network Error:", error);
     dispatch(authError("Network Error."));
@@ -322,7 +322,7 @@ export const addUpdateShippingData = (fields) => async (dispatch) => {
       }
     );
     result = await result.json();
-    console.log(result);
+    
   } catch (error) {
     console.error("Network Error:", error);
     dispatch(authError("Network Error."));
@@ -341,7 +341,7 @@ export const getShippingDataIfAvailable = (id) => async (dispatch) => {
       }
     );
     result = await result.json();
-    console.log(result);
+    
     if (result?._id) {
       dispatch(authgettingShippingData(result));
     }
@@ -359,7 +359,7 @@ export const getProductOfSeller = (id) => async (dispatch) => {
     let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/seller/getproduct/${id}`,
     {method:"get",});
     result = await result.json();
-    console.log(result);
+    
     if(result?.length){
       dispatch(authGettedProductOfSingleSeller(result));
     }
@@ -382,9 +382,9 @@ export const updatingProduct = (fields) => async (dispatch) => {
       },
     });
     result = await result.json();
-    console.log(result);
+    
     if (result._id) {
-      console.log(result);
+      
       dispatch(authGetParticularProductDetails(result));
     }else{
       dispatch(authFailed("Failed to update.try again after a sometime."))
@@ -409,9 +409,9 @@ export const RemovingProductFromSellerList = (id) => async(dispatch) => {
       },
     });
     result = await result.json();
-    console.log(result);
+    
     if(result){
-      console.log(result);
+      
     }
 
   } catch (error) {
@@ -441,7 +441,7 @@ export const getKey = async (dispatch) => {
       method: "get",
     });
     result = await result.json();
-    console.log(result);
+    
     if (result?.key) {
       dispatch(authGetKey(result?.key));
       return result?.key;
@@ -468,7 +468,7 @@ export const getCheckoutHandler = async (dispatch, amount) => {
       },
     });
     result = await result.json();
-    console.log(result);
+    
     if (result) {
       dispatch(authOrderCreation(result));
       return result;
@@ -487,7 +487,7 @@ export const checkOrderId = async (dispatch, order_id) => {
       method: "get",
     });
     result = await result.json();
-    console.log(result);
+    
     if (result) {
       return result;
     }
@@ -510,7 +510,7 @@ export const saveBuyingDetails = (buyingDetails) => async(dispatch) => {
         },
       });
       result = await result.json();
-      console.log(result);
+      
     } catch (error) {
       console.error("Network Error:", error);
       dispatch(authError("Network Error."));
@@ -530,7 +530,7 @@ export const removeProductFromCart = (orderedDetails,length) => async(dispatch) 
       },
     });
     result = await result.json();
-    console.log(result);
+    
     if(result){
       dispatch(authCartProductList(result));
     }else{
