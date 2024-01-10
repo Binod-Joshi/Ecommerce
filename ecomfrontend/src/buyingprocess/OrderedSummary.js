@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import { Box, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getProductOfCart, particularProductDetails } from '../store/productRelated/productHandle';
+import { getProductOfCart, getShippingDataIfAvailable, particularProductDetails } from '../store/productRelated/productHandle';
 // import { fetchProductDetailsFromCart } from '?.?./?.?./?.?./redux/userSlice';
 
 const OrderSummary = ({ handleNext, handleBack }) => {
@@ -22,6 +22,10 @@ const OrderSummary = ({ handleNext, handleBack }) => {
     const {gettedShippingData,particularProductData,cartProductList,QuantityOfSingleProductToBuy} = useSelector((state) => state?.product);
 
     React?.useEffect(() => {
+        if(!gettedShippingData?.address){
+            dispatch(getShippingDataIfAvailable(currentUser?._id));
+            console.log(gettedShippingData);
+        }
         if (productID !== 0 && productID !== '0' && productID) {
             console.log(productID)
             dispatch(particularProductDetails(productID));
@@ -29,9 +33,7 @@ const OrderSummary = ({ handleNext, handleBack }) => {
             dispatch(getProductOfCart(currentUser?._id));
         }
     }, [productID, dispatch]);
-    console.log(particularProductData);
-    // console.log(gettedShippingData);
-    console.log(cartProductList)
+
 
     let cartDetails = cartProductList;
     let shippingData = gettedShippingData;

@@ -23,7 +23,7 @@ const SuccessfullPaymentPage = ({ result }) => {
       dispatch(saveBuyingDetails(buyingDetails));
 
       const datas = buyingDetails?.orderedProducts;
-      if (datas && datas?.length > 1) { //direct buy gargya lai bewasta gaddo xa
+      if (datas && datas?.length > 1) {
         const orderedDetails = {
           buyer: buyingDetails?.buyer,
           product: "deleteall",

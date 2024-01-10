@@ -90,5 +90,64 @@ router.get(`/numberofproductaddedtocartforseller/:id`, async (req, res) => {
 });
 
 // here i want to find the ordereds of the particular seller
+router.get("/getordereddetailsofseller/:id", async (req, res) => {
+    try {
+        const id = req?.params?.id;
+        const sellerId = new mongoose.Types.ObjectId(id);
+
+        let result = await Ordered.aggregate([
+            {
+                $unwind: "$orderedProducts"
+            },
+            {
+                $match: {
+                    "orderedProducts.seller": sellerId
+                }
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    order_id: { $first: "$order_id" },
+                    buyer: { $first: "$buyer" },
+                    shippingData: { $first: "$shippingData" },
+                    orderedProducts: { $push: "$orderedProducts" },
+                    paymentInfo: { $first: "$paymentInfo" },
+                    createdAt: { $first: "$createdAt" },
+                    updatedAt: { $first: "$updatedAt" },
+                    __v: { $first: "$__v" }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    order_id: 1,
+                    buyer: 1,
+                    shippingData: 1,
+                    orderedProducts: 1,
+                    paymentInfo: 1,
+                    createdAt: 1,
+                    updatedAt: 1,
+                    __v: 1
+                }
+                
+            },
+            {
+                $sort: { createdAt: -1 }
+            }
+
+        ]);
+        result = await Ordered.populate(result, [
+            { path: "orderedProducts.product", model: "Product" },
+            { path: "shippingData", model: "ShippingAddress" },
+            { path: "buyer", model: "Customer",select: "name _id"}
+        ]);
+        res.json(result || []);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+
 
 module.exports = router;

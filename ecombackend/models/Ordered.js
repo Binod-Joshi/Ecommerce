@@ -1,46 +1,60 @@
 const mongoose = require("mongoose");
 
-const orderedSchema = new mongoose.Schema({
-    order_id:{
-        type:String,
-        required:true,
+const orderedSchema = new mongoose.Schema(
+  {
+    order_id: {
+      type: String,
+      required: true,
     },
-    buyer:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Customer",
-        required:true,
+    buyer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customer",
+      required: true,
     },
     shippingData: {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"ShippingAddress",
-        required:true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ShippingAddress",
+      required: true,
     },
     orderedProducts: [
-        {
-            product: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Product",
-                required: true,
-            },
-            quantity: {
-                type: Number,
-                required: true,
-            },
-            seller:{
-                type:mongoose.Schema.Types.ObjectId,
-                ref: "Seller",
-                required: true,
-            },
-        }
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        seller: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Seller",
+          required: true,
+        },
+        status: {
+          type: String,
+          enum: ["processing", "shipped", "delivered"],
+          default: "processing",
+        },
+        cancelled: {
+          type: Boolean,
+          default: false,
+        },
+      },
     ],
-    paymentInfo:{
-        type:Number,
-        required:true,
+    paymentInfo: {
+      type: Number,
+      required: true,
     },
-},
-{
-    timestamps:true,
-}
+    group: {
+      type: Boolean,
+      required:true,
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
-module.exports = mongoose.model("Ordered",orderedSchema);
+module.exports = mongoose.model("Ordered", orderedSchema);

@@ -20,6 +20,7 @@ import AddProducts from "../products/AddProducts";
 import Profile from "../forms/setting/Profile";
 import SellerProducts from "./SellerProducts";
 import ParticularProduct from "../products/ParticularProduct";
+import SellerOrders from "./SellerOrders";
 
 // login and register mai kam gaddo xa message show gadde ki
 
@@ -154,6 +155,7 @@ const SellerDashboard = () => {
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/Seller/dashboard" element={<SellerHomePage />} />
             <Route path="/Seller/addproducts" element={<AddProducts />} />
+            <Route path="/Seller/orders" element={<SellerOrders/>} />
             <Route path="/Seller/products" element={<SellerProducts />} />
             <Route path="/Seller/profile" element={<Profile />} />
             <Route

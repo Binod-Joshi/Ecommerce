@@ -80,16 +80,20 @@ const PaymentForm = ({ handleBack }) => {
           product: order?.product?._id,
           quantity: order?.quantity,
           seller:order?.product?.seller,
+          // price:99,
+          status:"processing",
+          cancelled:false,
         })),
         paymentInfo: totalOGPrice-totalDiscounPrice,
-        // productsQuantity,
-        // totalPrice,
+        group:true,
       };
     
     const singleProduct = {
       product:particularProductData?._id,
       quantity:QuantityOfSingleProductToBuy,
       seller:particularProductData?.seller,
+      status:"processing",
+      cancelled:false,
     }
     
       const singleOrderData = {
@@ -98,10 +102,10 @@ const PaymentForm = ({ handleBack }) => {
         shippingData: gettedShippingData?._id,
         orderedProducts: singleProduct, // ye bhitra hun padyo product quantity
         paymentInfo: (particularProductData?.cost && (particularProductData?.cost - (particularProductData?.cost * (particularProductData?.discount/100))) * QuantityOfSingleProductToBuy),
-        // productsQuantity: singleProductQuantity,
-        // totalPrice: totalsingleProductPrice,
+        group:false,
       };
-
+      console.log(multiOrderData);
+      console.log(cartProductList);
       if (productID === "0") {
         localStorage.setItem('buyingDetails', JSON.stringify(multiOrderData));
       } else {

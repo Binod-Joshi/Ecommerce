@@ -18,6 +18,7 @@ const initialState = {
   noOfOrderOfProductOfSeller:0,
   noOfAddedProductToCartForSeller:0,
   listOfAddedProductToCartForSeller:[],
+  listOfOrderedDetailsOfSeller:[],
 };
 
 const productSlice = createSlice({
@@ -106,6 +107,10 @@ const productSlice = createSlice({
     authGetNoOfAddedProductToCartForSeller: (state, action) => {
       state.noOfAddedProductToCartForSeller = action?.payload?.length;
       state.listOfAddedProductToCartForSeller = action?.payload;
+    },
+    authGetOrderedDetailsOfSeller: (state, action) => {
+      state.listOfOrderedDetailsOfSeller = action?.payload;
+      state.loading = false;
     }
   },
 });
@@ -129,6 +134,7 @@ export const {
   authSetQuantityOfSingleProductToBuy,
   authGetNoOfOrderOfSeller,
   authGetNoOfAddedProductToCartForSeller,
+  authGetOrderedDetailsOfSeller,
 
 } = productSlice.actions;
 

@@ -17,6 +17,7 @@ import {
   authSetQuantityOfSingleProductToBuy,
   authGetNoOfOrderOfSeller,
   authGetNoOfAddedProductToCartForSeller,
+  authGetOrderedDetailsOfSeller,
 } from "./productSlice";
 
 export const settingAllToInitial = () => async (dispatch) => {
@@ -344,6 +345,8 @@ export const getShippingDataIfAvailable = (id) => async (dispatch) => {
     
     if (result?._id) {
       dispatch(authgettingShippingData(result));
+    }else{
+      console.log("no address");
     }
   } catch (error) {
     console.error("Network Error:", error);
@@ -549,11 +552,18 @@ export const removeProductFromCart = (orderedDetails,length) => async(dispatch) 
 //getNoOfOrderOfSellerofParticularSeller
 export const getNoOfOrderOfSeller = (id,address) => async(dispatch) => {
   try {
-    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerorder/${address}/${id}`,{
+    // let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerorder/${address}/${id}`,{
+    //   method:"get",
+    // });
+    let result = await fetch(`http://localhost:5000/auth/sellerorder/${address}/${id}`,{
       method:"get",
     });
     result = await result.json();
-    if(result>-1){
+    if(address === "getordereddetailsofseller"){
+      dispatch(authGetOrderedDetailsOfSeller(result));
+      // console.log(result);
+    }
+    else if(result>-1){
       dispatch(authGetNoOfOrderOfSeller(result));
     }
   } catch (error) {
