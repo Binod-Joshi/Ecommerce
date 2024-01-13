@@ -229,10 +229,11 @@ const Navbar = () => {
                   smooth={true}
                   offset={-70}
                   duration={500}
-                  onClick={homeHandler}
+          
                 >
                   <LocalMallIcon
                     sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+                    onClick={(e) => navigate('/')}
                   />
                   FusionFashion
                 </NavLogo>

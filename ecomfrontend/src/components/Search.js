@@ -12,6 +12,7 @@ const Search = () => {
 
     const handleSearch = () => {
         dispatch(getSearchesProduct(searchTerm));
+        setSearchTerm("");
     };
 
     return (

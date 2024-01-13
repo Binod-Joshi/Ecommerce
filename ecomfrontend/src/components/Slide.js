@@ -12,6 +12,8 @@ import {
   Button,
   Container,
   useMediaQuery,
+  Stack,
+  Skeleton,
 } from "@mui/material";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -23,28 +25,31 @@ const theme = createTheme();
 
 const Slide = ({ products, title }) => {
   const { currentUser } = useSelector((state) => state.user);
+  const {loading} = useSelector((state) => state.product);
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down("sm"));
-  const navigate = useNavigate();
-
+  let numberOfSkeletons = 1;
   return (
     <ThemeProvider theme={theme}>
       <Component>
         <Deal>
           <DealText>{title}</DealText>
 
-          {/* <ViewAllButton
-          variant="contained"
-          onClick={() => {
-            navigate("/Products");
-          }}
-        >
-          View All
-        </ViewAllButton> */}
         </Deal>
 
         <Divider />
 
-        <Carousel
+        {loading?<Stack
+          spacing={1}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {[...Array(numberOfSkeletons)].map((_, index) => (
+            <Skeleton key={index} variant="rounded" width="90vw" height={120} />
+          ))}
+        </Stack>:<Carousel
           swipeable={isMobileOrTablet}
           draggable={isMobileOrTablet}
           responsive={responsive}
@@ -102,7 +107,7 @@ const Slide = ({ products, title }) => {
                 </Link>
               );
             })}
-        </Carousel>
+        </Carousel>}
       </Component>
     </ThemeProvider>
   );

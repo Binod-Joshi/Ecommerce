@@ -28,6 +28,7 @@ const SuccessfullPaymentPage = ({ result }) => {
         <StyledDiv result={result}>
           {result === "Successfull" ? <DoneAllIcon /> : <ClearIcon />}
           <h2>Payment {result}</h2>
+          <h4>Referece id : {seachQuery}</h4>
         </StyledDiv>
         <Button
           variant="contained"
