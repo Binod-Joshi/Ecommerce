@@ -18,6 +18,9 @@ import {
   authGetNoOfOrderOfSeller,
   authGetNoOfAddedProductToCartForSeller,
   authGetOrderedDetailsOfSeller,
+  authOngoingNoOfOrders,
+  authCancelledNoOfOrders,
+  authLastWeekNoOfCompletedOrders,
 } from "./productSlice";
 
 export const settingAllToInitial = () => async (dispatch) => {
@@ -483,88 +486,38 @@ export const getCheckoutHandler = async (dispatch, amount) => {
   }
 };
 
-export const checkOrderId = async (dispatch, order_id) => {
-  try {
-    console.log(order_id);
-    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/cshipping/checkorderid/${order_id}`, {
-      method: "get",
-    });
-    result = await result.json();
-    
-    if (result) {
-      return result;
-    }
-  } catch (error) {
-    console.error("Network Error:", error);
-    dispatch(authError("Network Error."));
-    throw error;
-  }
-};
-
-export const saveBuyingDetails = (buyingDetails) => async(dispatch) => {
-  
-    console.log(buyingDetails);
-    try {
-      let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/cshipping/buyingdetails`, {
-        method: "post",
-        body: JSON.stringify({ buyingDetails }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      result = await result.json();
-      
-    } catch (error) {
-      console.error("Network Error:", error);
-      dispatch(authError("Network Error."));
-    }
-  
-}
-
-// after success of payment remove product from car
-
-export const removeProductFromCart = (orderedDetails,length) => async(dispatch) => {
-  try {
-    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/cshipping/removeproductfromcartafterpayment`,{
-      method:"put",
-      body:JSON.stringify({orderedDetails,length}),
-      headers: {
-        "Content-Type" : "application/json",
-      },
-    });
-    result = await result.json();
-    
-    if(result){
-      dispatch(authCartProductList(result));
-    }else{
-      dispatch(authFailed(result));
-    }
-    
-  } catch (error) {
-    console.error("Network Error:", error);
-    dispatch(authError("Network Error."));
-  }
-}
-
-
 // now for seller regading orders
 
 //getNoOfOrderOfSellerofParticularSeller
-export const getNoOfOrderOfSeller = (id,address) => async(dispatch) => {
+export const getNoOfOrderOfSeller = (id,address,status) => async(dispatch) => {
+  if(address === "getordereddetailsofseller" || address === "getordereddetailsofcustomer"){
+    dispatch(authRequest());
+    console.log(address);
+  }
   try {
-    // let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerorder/${address}/${id}`,{
-    //   method:"get",
-    // });
-    let result = await fetch(`http://localhost:5000/auth/sellerorder/${address}/${id}`,{
+    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerorder/${address}/${id}/${status}`,{
       method:"get",
     });
     result = await result.json();
-    if(address === "getordereddetailsofseller"){
+
+    if(address === "getordereddetailsofseller"  || address === "getordereddetailsofcustomer"){
       dispatch(authGetOrderedDetailsOfSeller(result));
-      // console.log(result);
-    }
-    else if(result>-1){
-      dispatch(authGetNoOfOrderOfSeller(result));
+
+    }else if(result>-1){
+      if(status === "delivered"){
+        dispatch(authGetNoOfOrderOfSeller(result));
+
+      }else if(status === "ongoing"){
+        dispatch(authOngoingNoOfOrders(result));
+
+      }else if(status === "cancelled"){
+        dispatch(authCancelledNoOfOrders(result));
+        
+      }else if(status === "lastweek"){
+        dispatch(authLastWeekNoOfCompletedOrders(result));
+
+      }
+      
     }
   } catch (error) {
     console.error("Network Error:", error);
@@ -575,15 +528,33 @@ export const getNoOfOrderOfSeller = (id,address) => async(dispatch) => {
 
 // getting the no of addedproductforseller
 export const getNoOfAddedProductToCartofSeller = (id) => async(dispatch) => {
+  dispatch(authRequest());
   try {
     let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerorder/numberofproductaddedtocartforseller/${id}`,{
       method:"get",
     });
     result = await result.json();
-    console.log(result?.length+ " cart");
     if(result?.length>0){
       dispatch(authGetNoOfAddedProductToCartForSeller(result))
     }
+  } catch (error) {
+    console.error("Network Error:", error);
+    dispatch(authError("Network Error."));
+  }
+}
+
+//getUpdateOrderDetails for updation
+export const getUpdateOrderDetails = (status,orderedid,productid,address) => async(dispatch) => {
+  try {
+    let result = await fetch(`${process.env.REACT_APP_BASE_URL_BACKEND}/auth/sellerorder/${address}`,{
+      method:"put",
+      body: JSON.stringify({status,orderedid,productid}),
+      headers:{
+        "Content-Type" : "application/json",
+      },
+    });
+    result = await result.json();
+    console.log(result);
   } catch (error) {
     console.error("Network Error:", error);
     dispatch(authError("Network Error."));

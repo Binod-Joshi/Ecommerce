@@ -7,71 +7,103 @@ import Typography from "@mui/material/Typography";
 import { Grid, MenuItem, Select } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getNoOfOrderOfSeller } from "../../../store/productRelated/productHandle";
+import {
+  getNoOfOrderOfSeller,
+  getUpdateOrderDetails,
+} from "../../../store/productRelated/productHandle";
 import styled from "styled-components";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
+import { useNavigate } from "react-router-dom";
 
-export default function OnGoingOrders() {
+export default function OnGoingOrders({ status }) {
   const theme = useTheme();
   const { currentUser } = useSelector((state) => state.user);
-  const { listOfOrderedDetailsOfSeller } = useSelector(
+  const { loading, listOfOrderedDetailsOfSeller } = useSelector(
     (state) => state.product
   );
-  const [orderStatus, setOrderStatus] = useState("processing");
+  const [updatedOrderDetails, setUpdatedOrderDetails] = useState([]);
   const dispatch = useDispatch();
   const id = currentUser?._id;
-
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getNoOfOrderOfSeller(id, "getordereddetailsofseller"));
+    console.log(status);
+    if (currentUser?.role === "Seller") {
+      dispatch(getNoOfOrderOfSeller(id, "getordereddetailsofseller", status));
+    } else {
+      dispatch(getNoOfOrderOfSeller(id, "getordereddetailsofcustomer", status));
+    }
   }, []);
 
   let flattenedList;
   const flattendWork = () => {
-    flattenedList = listOfOrderedDetailsOfSeller.flatMap((order) => {
-      return order.orderedProducts.map((product) => ({
-        buyer: order.buyer,
-        createdAt: order.createdAt,
-        order_id: order.order_id,
-        orderedProduct: {
-          product: product.product,
-          quantity: product.quantity,
-          seller: product.seller,
-          _id: product._id,
-        },
-        paymentInfo: order.paymentInfo,
-        shippingData: order.shippingData,
-        updatedAt: order.updatedAt,
-        __v: order.__v,
-        _id: order._id,
-      }));
-    });
+    flattenedList =
+      listOfOrderedDetailsOfSeller?.length > 0 &&
+      listOfOrderedDetailsOfSeller?.flatMap((order) => {
+        return order?.orderedProducts?.map((product) => ({
+          buyer: order?.buyer,
+          createdAt: order?.createdAt,
+          order_id: order?.order_id,
+          orderedProduct: {
+            product: product?.product,
+            quantity: product?.quantity,
+            seller: product?.seller,
+            cancelled: product?.cancelled,
+            status: product?.status,
+            _id: product?._id,
+          },
+          paymentInfo: order?.paymentInfo,
+          shippingData: order?.shippingData,
+          group: order?.group,
+          updatedAt: order?.updatedAt,
+          __v: order?.__v,
+          _id: order?._id,
+        }));
+      });
   };
   flattendWork();
-  console.log(flattenedList);
+  console.log(listOfOrderedDetailsOfSeller);
+  console.log(updatedOrderDetails?.length);
 
-  const handleStatusChange = (newStatus) => {
-    setOrderStatus(newStatus);
-
-    // statusChange(id);
+  const handleStatusChange = (newStatus, orderId, ProductId) => {
+    statusChange(newStatus, orderId, ProductId);
+    console.log(orderId, ProductId);
   };
 
-  // const statusChange = (id) => {
+  const statusChange = (newStatus, orderId, productId) => {
+    console.log(flattenedList);
+    let flattenedList1 = (
+      updatedOrderDetails?.length === 0 ? flattenedList : updatedOrderDetails
+    )
+      ?.map((order) => {
+        if (
+          order?.order_id === orderId &&
+          order?.orderedProduct?.product?._id === productId
+        ) {
+          dispatch(
+            getUpdateOrderDetails(newStatus, orderId, productId, "updatestatus")
+          );
+          console.log(orderId, productId);
+          return null;
+        }
+        return order;
+      })
+      .filter((order) => order !== null);
+    console.log(flattenedList1);
+    setUpdatedOrderDetails(flattenedList1);
+  };
 
-  //   const updatedCart = (updatedCartProducts?.length === 0 ? cartProductList : updatedCartProducts)?.map((product) => {
-  //     if (product?._id === id) {
-  //       const quantity = product.quantity+1;
-  //           dispatch(authUpdateQuantityOfProductInCart(id,quantity));
-  //       return { ...product, quantity: product.quantity + 1 };
-  //     }
-  //     return product;
-  //   });
-  //   setUpdatedCartProducts(updatedCart);
-  // };
-  
+  const numberOfSkeletons = 5;
   return (
     <div style={{ display: "flex", gap: "10px", flexDirection: "column" }}>
-      {flattenedList &&
-        flattenedList?.map((order) => {
+      {!loading ? (
+        flattenedList &&
+        (updatedOrderDetails?.length === 0
+          ? flattenedList
+          : updatedOrderDetails
+        )?.map((order) => {
+          let encodedImage = encodeURIComponent(order?.orderedProduct?.product?.image);
           return (
             <MobileStyledCard
               key={order?.orderedProduct?._id}
@@ -83,6 +115,7 @@ export default function OnGoingOrders() {
                   sx={{ width: 109, height: 132 }}
                   image={order?.orderedProduct?.product?.image}
                   alt="Live from space album cover"
+                  onClick={(e) => navigate(`/particularproduct/${encodedImage}/${order?.orderedProduct?.product?._id}`)}
                 />
               </div>
               <Grid container spacing={2}>
@@ -134,15 +167,29 @@ export default function OnGoingOrders() {
                           style={{ fontSize: "13px" }}
                         >
                           Status:
-                          <Select
-                            value={orderStatus}
-                            onChange={(e) => handleStatusChange(e.target.value)}
-                            style={{ fontSize: "13px", marginTop: "0",height:"17px" }}
-                          >
-                            <MenuItem value="processing">Processing</MenuItem>
-                            <MenuItem value="shipped">Shipped</MenuItem>
-                            <MenuItem value="delivered">Delivered</MenuItem>
-                          </Select>
+                          {currentUser?.role === "Customer" ? (
+                            ` ${order?.orderedProduct?.status}`
+                          ) : (
+                            <Select
+                              value={order?.orderedProduct?.status}
+                              onChange={(e) =>
+                                handleStatusChange(
+                                  e.target.value,
+                                  order?.order_id,
+                                  order?.orderedProduct?.product._id
+                                )
+                              }
+                              style={{
+                                fontSize: "13px",
+                                marginTop: "0",
+                                height: "17px",
+                              }}
+                            >
+                              <MenuItem value="processing">Processing</MenuItem>
+                              <MenuItem value="shipped">Shipped</MenuItem>
+                              <MenuItem value="delivered">Delivered</MenuItem>
+                            </Select>
+                          )}
                         </Typography>
                       </div>
                       <div>
@@ -160,7 +207,8 @@ export default function OnGoingOrders() {
                           component="div"
                           style={{ fontSize: "13px" }}
                         >
-                          Date: {new Date(order?.createdAt).toLocaleString()}
+                          Group:{" "}
+                          {order?.group ? `true(${order?.order_id})` : "false"}
                         </Typography>
                         <Typography
                           variant="subtitle1"
@@ -168,7 +216,18 @@ export default function OnGoingOrders() {
                           component="div"
                           style={{ fontSize: "13px" }}
                         >
-                          Cancelled: false
+                          product payment
+                          {order?.orderedProduct?.quantity > 1
+                            ? `(${order?.orderedProduct?.quantity}items)`
+                            : "(1item)"}{" "}
+                          : ₹
+                          {(
+                            (order?.orderedProduct?.product?.cost -
+                              (order?.orderedProduct?.product?.discount *
+                                order?.orderedProduct?.product?.cost) /
+                                100) *
+                            order?.orderedProduct?.quantity
+                          ).toFixed(2)}
                         </Typography>
                       </div>
                     </div>
@@ -220,6 +279,14 @@ export default function OnGoingOrders() {
                         >
                           City : {order?.shippingData?.city}
                         </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          color="text.secondary"
+                          component="div"
+                          style={{ fontSize: "13px" }}
+                        >
+                          Date: {new Date(order?.createdAt).toLocaleString()}
+                        </Typography>
                       </div>
                       <StyledDiv2>
                         <Typography
@@ -237,6 +304,45 @@ export default function OnGoingOrders() {
                           style={{ fontSize: "13px" }}
                         >
                           Country : {order?.shippingData?.country}
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          color="text.secondary"
+                          component="div"
+                          style={{ fontSize: "13px" }}
+                        >
+                          Cancelled:{" "}
+                          {currentUser?.role === "Customer" &&
+                          order?.orderedProduct?.status === "delivered" ? (
+                            order?.orderedProduct?.cancelled ? (
+                              "Cancelled"
+                            ) : (
+                              "Not Cancelled"
+                            )
+                          ) : (
+                            <Select
+                              value={
+                                order?.orderedProduct?.cancelled
+                                  ? "true"
+                                  : "false"
+                              }
+                              onChange={(e) =>
+                                handleStatusChange(
+                                  e.target.value,
+                                  order?.order_id,
+                                  order?.orderedProduct?.product._id
+                                )
+                              }
+                              style={{
+                                fontSize: "13px",
+                                marginTop: "0",
+                                height: "17px",
+                              }}
+                            >
+                              <MenuItem value="false">Not Cancelled</MenuItem>
+                              <MenuItem value="true">Yes Cancelled</MenuItem>
+                            </Select>
+                          )}
                         </Typography>
                       </StyledDiv2>
                       <StyledDiv2>
@@ -263,18 +369,32 @@ export default function OnGoingOrders() {
               </Grid>
             </MobileStyledCard>
           );
-        })}
+        })
+      ) : (
+        <Stack
+          spacing={1}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {[...Array(numberOfSkeletons)].map((_, index) => (
+            <Skeleton key={index} variant="rounded" width="90vw" height={120} />
+          ))}
+        </Stack>
+      )}
     </div>
   );
 }
 
-const MobileStyledCard = styled(Card)`
+export const MobileStyledCard = styled(Card)`
   @media (max-width: 768px) {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column !important;
-    width: 90vw;
+    width: 87vw;
     margin: 0;
     padding: 0;
 

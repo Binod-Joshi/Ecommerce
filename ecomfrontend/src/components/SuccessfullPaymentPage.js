@@ -14,36 +14,6 @@ const SuccessfullPaymentPage = ({ result }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const seachQuery = useSearchParams()[0];
-
-  const referenceNum = seachQuery.get("reference");
-  if (referenceNum) {
-    const buyingDetails =
-      JSON.parse(localStorage.getItem("buyingDetails")) || {};
-    if (buyingDetails?.buyer) {
-      dispatch(saveBuyingDetails(buyingDetails));
-
-      const datas = buyingDetails?.orderedProducts;
-      if (datas && datas?.length > 1) {
-        const orderedDetails = {
-          buyer: buyingDetails?.buyer,
-          product: "deleteall",
-        };
-        let length = "morethan1";
-        dispatch(removeProductFromCart(orderedDetails,length));
-      } else {
-        const orderedDetails = {
-          buyer: buyingDetails?.buyer,
-          product: datas?.product,
-        };
-        let length = "1";
-        dispatch(removeProductFromCart(orderedDetails,length));
-      }
-
-      localStorage.removeItem('buyingDetails');
-    }
-  } else {
-    console.log("cheating");
-  }
   return (
     <>
       <div

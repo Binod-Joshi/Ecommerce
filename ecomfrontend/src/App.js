@@ -24,6 +24,9 @@ import SellerDashboard from "./pages/seller/SellerDashboard";
 import BuyingCartingWithoutLogin from "./components/BuyingCartingWithoutLogin";
 import SuccessfullPaymentPage from "./components/SuccessfullPaymentPage";
 import Wait from "./buyingprocess/Wait";
+import OnGoingOrders from "./pages/seller/component/OnGoingOrders";
+import SellerOrders from "./pages/seller/SellerOrders";
+import Profile from "./pages/forms/setting/Profile"
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -45,12 +48,14 @@ function App() {
             <Route path="/" element={<FirstPage />} />
             <Route path="/adminhome" element={<FirstPage />} />
             <Route path="/opencart" element={<Cart />} />
-            <Route path="/checkoutsteps/:Id" element={<CheckoutSteps />} />
+            <Route path="/checkoutsteps/:Id/:quantity" element={<CheckoutSteps />} />
             <Route path="/placeorderfinalpage" element={<FinalOrderedPage />} />
             <Route
             path="/particularproduct/:encodedImage/:productId"
             element={<ParticularProduct />}
           />
+          <Route path="/Profile" element={<Profile/>} />
+          <Route path="/Ordersofcustomer" element={<SellerOrders/>} />
           <Route path="/paymentsuccess" element={<SuccessfullPaymentPage result={"Successfull"}/>} />
           <Route path="/paymentfailure" element={<SuccessfullPaymentPage result={"Failure"}/>} />
           <Route path="/waiting" element={<Wait/> } />

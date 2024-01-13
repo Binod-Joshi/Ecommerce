@@ -8,19 +8,24 @@ import { getNoOfAddedProductToCartofSeller, getNoOfOrderOfSeller } from '../../s
 const SellerHomePage = () => {
   const dispatch = useDispatch();
   const {currentUser} = useSelector((state) => state.user);
-  const {noOfOrderOfProductOfSeller,noOfAddedProductToCartForSeller} = useSelector((state) => state?.product);
+  const {noOfAddedProductToCartForSeller,noOfOngoingOrders,
+    noOfCancelledOrders,noOfLastWeekCompletedOrders} = useSelector((state) => state?.product);
   const id = currentUser?._id;
   useEffect(() => {
     const address = "getnooforderofseller";
-    dispatch(getNoOfOrderOfSeller(id,address));
+    const status = ["delivered","ongoing","cancelled","lastweek"];
+    for(const s of status){
+      dispatch(getNoOfOrderOfSeller(id,"getNoOfOrderOfSeller",s));
+    }
     dispatch(getNoOfAddedProductToCartofSeller(id));
   },[]);
+  
 
   return (
     <Grid container spacing={3} sx={{ padding: "9px" }}>
 
       <Grid item xs={12} sm={6} md={3}>
-        <SalesCard title="Weekly Sales" total={0} color='primary' icon={'ant-design:carry-out-filled'} />
+        <SalesCard title="Weekly Sales" total={noOfLastWeekCompletedOrders} color='primary' icon={'ant-design:carry-out-filled'} />
       </Grid>
 
       <Grid item xs={12} sm={6} md={3}>
@@ -28,11 +33,11 @@ const SellerHomePage = () => {
       </Grid>
 
       <Grid item xs={12} sm={6} md={3}>
-        <SalesCard title="Ongoing Orders" total={noOfOrderOfProductOfSeller} color="warning" icon={'material-symbols:data-exploration'} />
+        <SalesCard title="Ongoing Orders" total={noOfOngoingOrders} color="warning" icon={'material-symbols:data-exploration'} />
       </Grid>
 
       <Grid item xs={12} sm={6} md={3}>
-        <SalesCard title="Cancelled Orders" total={0} color="error" icon={'material-symbols:free-cancellation-rounded'} />
+        <SalesCard title="Cancelled Orders" total={noOfCancelledOrders} color="error" icon={'material-symbols:free-cancellation-rounded'} />
       </Grid>
 
       <Grid item xs={12} lg={6}>

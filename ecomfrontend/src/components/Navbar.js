@@ -16,11 +16,12 @@ import { Login, Logout, Shop2, Store } from "@mui/icons-material";
 
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Badge, Divider, Drawer, ListItemIcon } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { NavLogo } from "../utils/styles";
 import Search from "./Search";
 import ProductsMenu from "./ProductsMenu";
+import { getProductOfCart } from "../store/productRelated/productHandle";
 
 const Navbar = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -37,6 +38,12 @@ const Navbar = () => {
   const openSign = Boolean(anchorElSign);
 
   const [isCartOpen, setIsCartOpen] = React.useState(false);
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+      if(currentUser?.role === "Customer" && cartProductLength < 1){
+      dispatch(getProductOfCart(currentUser?._id));
+      }
+  }, []);
 
   // Cart
   const handleOpenCart = () => {
@@ -332,7 +339,7 @@ const Navbar = () => {
                     <Avatar />
                     <Link to="/Profile" className="link">Profile</Link>
                   </MenuItem>
-                  <MenuItem onClick={() => navigate("/Orders")} >
+                  <MenuItem onClick={() => navigate("/Ordersofcustomer")} >
                     <ListItemIcon>
                       <Shop2 fontSize="small" />
                     </ListItemIcon>

@@ -267,9 +267,9 @@ const ParticularProduct = () => {
                 {" "}
                 <span style={{ fontSize: "32px", fontWeight: "bolder" }}>
                   ₹
-                  {particularProductData?.cost -
+                  {(particularProductData?.cost -
                     particularProductData?.cost *
-                      (particularProductData?.discount / 100)}
+                      (particularProductData?.discount / 100)).toFixed(2)}
                 </span>{" "}
                 <CenteredText>₹{particularProductData?.cost}</CenteredText>{" "}
                 <span style={{ fontSize: "23px", color: "blueviolet" }}>

@@ -39,7 +39,7 @@ const orderedSchema = new mongoose.Schema(
         },
         cancelled: {
           type: Boolean,
-          default: false,
+          required:true,
         },
       },
     ],

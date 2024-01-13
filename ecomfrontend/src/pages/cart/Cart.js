@@ -11,7 +11,14 @@ import styled from "styled-components";
 import { useState } from "react";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { useDispatch, useSelector } from "react-redux";
-import { authRemoveProductFromCart, authUpdateQuantityOfProductInCart, getCartProductLengthHandle, getProductOfCart,setBuyedProduct, setQuantityOfSingleProductToBuy } from "../../store/productRelated/productHandle";
+import {
+  authRemoveProductFromCart,
+  authUpdateQuantityOfProductInCart,
+  getCartProductLengthHandle,
+  getProductOfCart,
+  setBuyedProduct,
+  setQuantityOfSingleProductToBuy,
+} from "../../store/productRelated/productHandle";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -37,7 +44,9 @@ const StyledDivSpaceBetween = styled.div`
 
 const Cart = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const { cartProductList, loading, cartProductLength } = useSelector((state) => state.product);
+  const { cartProductList, loading, cartProductLength } = useSelector(
+    (state) => state.product
+  );
   const [updatedCartProducts, setUpdatedCartProducts] = useState([]);
   const [noOfPartItem, setNoOfPartItem] = useState(1);
   const dispatch = useDispatch();
@@ -55,44 +64,42 @@ const Cart = () => {
   );
   const totalCostAfterDiscount = totalCost - totalDiscount;
   const totalSaveIncludingDelivery = totalCostAfterDiscount + 40;
-  
 
   const handlePlaceorder = () => {
     console.log("order is placing");
     let Id = 0;
-    navigate(`/checkoutsteps/${Id}`)
-
+    let quantity = 0;
+    navigate(`/checkoutsteps/${Id}/${quantity}`);
   };
 
-
-  // 
+  //
   const minusParticularItem = (id) => {
-
-        const updatedCart = (updatedCartProducts?.length === 0 ? cartProductList : updatedCartProducts)?.map((product) => {
-          if (product?._id === id && product.quantity > 1) {
-            const quantity = product.quantity-1;
-            dispatch(authUpdateQuantityOfProductInCart(id,quantity));
-            return { ...product, quantity: product.quantity - 1 };
-          }
-          return product;
-        });
-        setUpdatedCartProducts(updatedCart);
-
-      
+    const updatedCart = (
+      updatedCartProducts?.length === 0 ? cartProductList : updatedCartProducts
+    )?.map((product) => {
+      if (product?._id === id && product.quantity > 1) {
+        const quantity = product.quantity - 1;
+        dispatch(authUpdateQuantityOfProductInCart(id, quantity));
+        return { ...product, quantity: product.quantity - 1 };
+      }
+      return product;
+    });
+    setUpdatedCartProducts(updatedCart);
   };
   useEffect(() => {
     console.log(updatedCartProducts);
-    if(updatedCartProducts?.length === 0){
+    if (updatedCartProducts?.length === 0) {
       dispatch(getProductOfCart(Id));
     }
-  },[updatedCartProducts])
+  }, [updatedCartProducts]);
 
   const plusParticularItem = (id) => {
-
-    const updatedCart = (updatedCartProducts?.length === 0 ? cartProductList : updatedCartProducts)?.map((product) => {
+    const updatedCart = (
+      updatedCartProducts?.length === 0 ? cartProductList : updatedCartProducts
+    )?.map((product) => {
       if (product?._id === id) {
-        const quantity = product.quantity+1;
-            dispatch(authUpdateQuantityOfProductInCart(id,quantity));
+        const quantity = product.quantity + 1;
+        dispatch(authUpdateQuantityOfProductInCart(id, quantity));
         return { ...product, quantity: product.quantity + 1 };
       }
       return product;
@@ -100,35 +107,36 @@ const Cart = () => {
     setUpdatedCartProducts(updatedCart);
   };
 
-
   const handleRemoveFromCart = (id) => {
-    
-    const updatedCart = (updatedCartProducts?.length === 0 ?cartProductList : updatedCartProducts)?.map((product) => {
-      if(product?._id === id){
-        dispatch(authRemoveProductFromCart(id));
-        const updatednum = cartProductLength -1;
-        dispatch(getCartProductLengthHandle(updatednum));
-        return null;
-      }
-      return product;
-    }).filter(product => product !== null);
+    const updatedCart = (
+      updatedCartProducts?.length === 0 ? cartProductList : updatedCartProducts
+    )
+      ?.map((product) => {
+        if (product?._id === id) {
+          dispatch(authRemoveProductFromCart(id));
+          const updatednum = cartProductLength - 1;
+          dispatch(getCartProductLengthHandle(updatednum));
+          return null;
+        }
+        return product;
+      })
+      .filter((product) => product !== null);
     setUpdatedCartProducts(updatedCart);
-    
   };
-  console.log(cartProductList); 
+  console.log(cartProductList);
 
   const handleBuyFromCart = (Id) => {
     console.log(Id);
     console.log(cartProductList);
-    const productWithMatchingId = cartProductList?.find((product) => product?.product?._id === Id);
+    const productWithMatchingId = cartProductList?.find(
+      (product) => product?.product?._id === Id
+    );
     const quantity = productWithMatchingId?.quantity;
     console.log(quantity);
     dispatch(setQuantityOfSingleProductToBuy(quantity));
-    navigate(`/checkoutsteps/${Id}`)
+    navigate(`/checkoutsteps/${Id}/${quantity}`);
     // dispatch(setBuyedProduct(id));
-    
-  }
-
+  };
 
   return (
     <>
@@ -143,147 +151,182 @@ const Cart = () => {
           {" "}
           <h1>Loading...</h1>
         </div>
-      ) : cartProductList?.length > 0 ? (<>
-        <StyledDivForCart
-        >
-          <StyledDivForCartOnly
-          >
-            <Card sx={{ maxWidth: "95vw", margin: "0 5% 0 5%" }}>
-              <ScrollableParagraph>
-                 {(updatedCartProducts?.length === 0 ? cartProductList : updatedCartProducts)?.map((cards, index) => (
-                  <Card key={index} sx={{ maxWidth: "94vw" }}>
-                    <div className="outerCard">
-                      <CardMedia
-                        component="img"
-                        height="200"
-                        style={{ width: "90%" }}
-                        image={cards?.product?.image}
-                        alt="green iguana"
-                      />
+      ) : cartProductList?.length > 0 ? (
+        <>
+          <StyledDivForCart>
+            <StyledDivForCartOnly>
+              <Card sx={{ maxWidth: "95vw", margin: "0 5% 0 5%" }}>
+                <ScrollableParagraph>
+                  {(updatedCartProducts?.length === 0
+                    ? cartProductList
+                    : updatedCartProducts
+                  )?.map((cards, index) => {
+                    let encodedImage = encodeURIComponent(
+                      cards?.product?.image
+                    );
+                    return (
+                      <Card key={index} sx={{ maxWidth: "94vw" }}>
+                        <div className="outerCard">
+                          <CardMedia
+                            component="img"
+                            height="200"
+                            style={{ width: "90%" }}
+                            image={cards?.product?.image}
+                            alt="green iguana"
+                            onClick={(e) =>
+                              navigate(
+                                `/particularproduct/${encodedImage}/${cards?.product?._id}`
+                              )
+                            }
+                          />
 
-                      <CardContent
-                        style={{
-                          // width: `calc(50% - 16px)`,
-                          width:`85%`,
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-between",
-                          gap: "20px",
-                        }}
-                      >
-                        <div className="shortDetail">
-                          <Typography gutterBottom variant="h5" component="div">
-                            {cards?.product?.name}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {" "}
-                            <span
-                              style={{ fontSize: "30px", fontWeight: "bolder" }}
-                            >
-                              ₹
-                              {cards?.product?.cost -
-                                cards?.product?.cost *
-                                  (cards?.product?.discount / 100)}
-                            </span>{" "}
-                            <CenteredText>₹{cards?.product?.cost}</CenteredText>{" "}
-                            <span
-                              style={{ fontSize: "21px", color: "blueviolet" }}
-                            >
-                              {cards?.product?.discount}% off{" "}
-                            </span>
-                          </Typography>
+                          <CardContent
+                            style={{
+                              // width: `calc(50% - 16px)`,
+                              width: `85%`,
+                              display: "flex",
+                              flexDirection: "column",
+                              justifyContent: "space-between",
+                              gap: "20px",
+                            }}
+                          >
+                            <div className="shortDetail">
+                              <Typography
+                                gutterBottom
+                                variant="h5"
+                                component="div"
+                              >
+                                {cards?.product?.name}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                              >
+                                {" "}
+                                <span
+                                  style={{
+                                    fontSize: "30px",
+                                    fontWeight: "bolder",
+                                  }}
+                                >
+                                  ₹
+                                  {(
+                                    (cards?.product?.cost ?? 0) -
+                                    (cards?.product?.cost ?? 0) *
+                                      ((cards?.product?.discount ?? 0) / 100)
+                                  ).toFixed(2)}
+                                </span>{" "}
+                                <CenteredText>
+                                  ₹{cards?.product?.cost}
+                                </CenteredText>{" "}
+                                <span
+                                  style={{
+                                    fontSize: "21px",
+                                    color: "blueviolet",
+                                  }}
+                                >
+                                  {cards?.product?.discount}% off{" "}
+                                </span>
+                              </Typography>
+                            </div>
+                            <StyledDivForButton>
+                              <Button
+                                variant="contained"
+                                onClick={() =>
+                                  handleBuyFromCart(cards?.product?._id)
+                                }
+                              >
+                                {" "}
+                                <BoltIcon style={{ marginRight: "5px" }} />
+                                BUY NOW
+                              </Button>
+                              <StyledButton
+                                className="buttonStyle"
+                                variant="contained"
+                                onClick={() => handleRemoveFromCart(cards?._id)}
+                              >
+                                <RemoveShoppingCartIcon
+                                  style={{ marginRight: "5px" }}
+                                />
+                                Remove
+                              </StyledButton>
+                            </StyledDivForButton>
+                          </CardContent>
                         </div>
-                        <StyledDivForButton>
-                          <Button variant="contained"
-                          onClick={() => handleBuyFromCart(cards?.product?._id)}
-                          >
-                            {" "}
-                            <BoltIcon style={{ marginRight: "5px" }} />
-                            BUY NOW
-                          </Button>
-                          <StyledButton className="buttonStyle"
-                            variant="contained"
-                            onClick={() => handleRemoveFromCart(cards?._id)}
-                          >
-                            <RemoveShoppingCartIcon
-                              style={{ marginRight: "5px" }}
-                            />
-                            Remove
-                          </StyledButton>
-                        </StyledDivForButton>
-                      </CardContent>
-                    </div>
 
-                    <div className="pieceButton">
-                      <button
-                        className="plusMinusButton"
-                        onClick={() => minusParticularItem(cards?._id)}
-                      >
-                        -
-                      </button>
-                      <button style={{ width: "30px" }}>{cards?.quantity}</button>
-                      <div
-                        className="plusMinusButton"
-                        onClick={() => plusParticularItem(cards?._id)}
-                      >
-                        +
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </ScrollableParagraph>
-              <div className="blockForPlaceOrder">
-                <Button variant="contained" onClick={handlePlaceorder}>
-                  Place Order
-                </Button>
+                        <div className="pieceButton">
+                          <button
+                            className="plusMinusButton"
+                            onClick={() => minusParticularItem(cards?._id)}
+                          >
+                            -
+                          </button>
+                          <button style={{ width: "30px" }}>
+                            {cards?.quantity}
+                          </button>
+                          <div
+                            className="plusMinusButton"
+                            onClick={() => plusParticularItem(cards?._id)}
+                          >
+                            +
+                          </div>
+                        </div>
+                      </Card>
+                    );
+                  })}
+                </ScrollableParagraph>
+                <div className="blockForPlaceOrder">
+                  <Button variant="contained" onClick={handlePlaceorder}>
+                    Place Order
+                  </Button>
+                </div>
+              </Card>
+            </StyledDivForCartOnly>
+
+            {/* total price section */}
+            <Card style={{ width: "375px", margin: "20px 0", height: "390px" }}>
+              <div>
+                <p style={{ padding: "0 10px", fontSize: "large" }}>
+                  PRICE DETAILS
+                </p>
+                <hr />
+              </div>
+              <StyledDivSpaceBetween>
+                <p>Price (total items)</p>
+                <p>₹{totalCost}</p>
+              </StyledDivSpaceBetween>
+              <StyledDivSpaceBetween>
+                <p>Discount</p>
+                <p style={{ color: "green" }}>− ₹{totalDiscount}</p>
+              </StyledDivSpaceBetween>
+              <StyledDivSpaceBetween>
+                <p>Delivery Charges</p>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "3px" }}
+                >
+                  <p>₹40</p>
+                  <span style={{ color: "green" }}>Free</span>
+                </div>
+              </StyledDivSpaceBetween>
+              <hr style={{ width: "94%" }} />
+              <StyledDivSpaceBetween>
+                <p style={{ fontSize: "20px" }}>Total Amount</p>
+                <p style={{ fontSize: "20px" }}>₹{totalCostAfterDiscount}</p>
+              </StyledDivSpaceBetween>
+              <hr style={{ width: "94%" }} />
+              <div
+                style={{
+                  padding: " 0 10px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "green",
+                }}
+              >
+                <p>You will save ₹{totalSaveIncludingDelivery} on this order</p>
               </div>
             </Card>
-          </StyledDivForCartOnly>
-
-          {/* total price section */}
-          <Card style={{ width: "375px", margin: "20px 0", height: "390px" }}>
-            <div>
-              <p style={{ padding: "0 10px", fontSize: "large" }}>
-                PRICE DETAILS
-              </p>
-              <hr />
-            </div>
-            <StyledDivSpaceBetween>
-              <p>Price (total items)</p>
-              <p>₹{totalCost}</p>
-            </StyledDivSpaceBetween>
-            <StyledDivSpaceBetween>
-              <p>Discount</p>
-              <p style={{ color: "green" }}>− ₹{totalDiscount}</p>
-            </StyledDivSpaceBetween>
-            <StyledDivSpaceBetween>
-              <p>Delivery Charges</p>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "3px" }}
-              >
-                <p>₹40</p>
-                <span style={{ color: "green" }}>Free</span>
-              </div>
-            </StyledDivSpaceBetween>
-            <hr style={{ width: "94%" }} />
-            <StyledDivSpaceBetween>
-              <p style={{ fontSize: "20px" }}>Total Amount</p>
-              <p style={{ fontSize: "20px" }}>₹{totalCostAfterDiscount}</p>
-            </StyledDivSpaceBetween>
-            <hr style={{ width: "94%" }} />
-            <div
-              style={{
-                padding: " 0 10px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "green",
-              }}
-            >
-              <p>You will save ₹{totalSaveIncludingDelivery} on this order</p>
-            </div>
-          </Card>
-        </StyledDivForCart>
+          </StyledDivForCart>
         </>
       ) : (
         <div
@@ -303,33 +346,35 @@ const Cart = () => {
 
 export default Cart;
 const StyledDivForCart = styled.div`
-display: flex;
-flex-direction: row;
-background-color: #e4e7ed;
-
-@media only screen and (max-width: 768px) {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   background-color: #e4e7ed;
-  maxwidth:100vw;
-}
+
+  @media only screen and (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #e4e7ed;
+    maxwidth: 100vw;
+  }
 `;
 const StyledDivForCartOnly = styled.div`
-display:flex;
-flexdirection:column;
-gap:10px;
-padding:20px 0;
-width:66vw;
+  display: flex;
+  flexdirection: column;
+  gap: 10px;
+  padding: 20px 0;
+  width: 66vw;
 
-@media only screen and (max-width:768px){
-  display:flex;
-  flexdirection:column;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  // padding:20px 0;
-  width:98vw;
-}
+  @media only screen and (max-width: 768px) {
+    display: flex;
+    flexdirection: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    // padding:20px 0;
+    width: 98vw;
+  }
 `;
 
 const StyledDivForButton = styled.div`
