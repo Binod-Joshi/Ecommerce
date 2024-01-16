@@ -104,7 +104,7 @@ const PaymentForm = ({ handleBack }) => {
           key,
           amount: order.amount,
           currency: "INR",
-          name: "Binod Joshi", // sayad recever name
+          name: "Binod Joshi", 
           description: "razorpay integration",
           image: "https://media.licdn.com/dms/image/D5635AQF0qKFANHyvEg/profile-framedphoto-shrink_400_400/0/1692359839193?e=1705294800&v=beta&t=nMsGRymVsB5EMzOCjOKqKdtEcWCsIIqfzxMCOeO3dc8",
           order_id: order.id,

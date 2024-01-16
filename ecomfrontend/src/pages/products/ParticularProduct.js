@@ -131,7 +131,7 @@ const ParticularProduct = () => {
     } else {
       const quantity = 1;
       dispatch(setQuantityOfSingleProductToBuy(quantity));
-      navigate(`/checkoutsteps/${Id}`);
+      navigate(`/checkoutsteps/${Id}/${quantity}`);
     }
   };
 

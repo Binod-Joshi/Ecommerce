@@ -49,6 +49,6 @@ const StyledDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
+  flex-direction: column;
   color: ${(props) => (props.result === "Successfull" ? "green" : "red")};
 `;
