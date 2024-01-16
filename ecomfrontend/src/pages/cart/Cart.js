@@ -53,17 +53,18 @@ const Cart = () => {
   const navigate = useNavigate();
   const Id = currentUser._id;
 
-  const totalCost = cartProductList?.reduce(
-    (sum, products) => sum + products?.product?.cost,
+  const totalCost = (updatedCartProducts?.length === 0 ? cartProductList : updatedCartProducts)?.reduce(
+    (sum, products) => sum + (products?.product?.cost*products?.quantity),
     0
   );
-  const totalDiscount = cartProductList.reduce(
+  const totalDiscount = (updatedCartProducts?.length === 0 ? cartProductList : updatedCartProducts)?.reduce(
     (sum, products) =>
-      sum + products?.product?.cost * (products?.product?.discount / 100),
+      sum + (products?.product?.cost * (products?.product?.discount / 100))*products?.quantity,
     0
   );
   const totalCostAfterDiscount = totalCost - totalDiscount;
   const totalSaveIncludingDelivery = totalCostAfterDiscount + 40;
+  console.log(totalCost);
 
   const handlePlaceorder = () => {
     console.log("order is placing");
