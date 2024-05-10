@@ -14,7 +14,7 @@ The Ecommerce App is a web-based application built using the MERN (MongoDB, Expr
   - Sign up, Log in, Log out.
 
 - #### Ecommerce site features:
-  - There is two dashbord one for seller and one for buyer you can able to login'register as your requirement.
+  - There are two dashboards available: one for sellers and one for buyers. Users can register and log in according to their requirements.
    ##### Buyer
   - Buyers have the capability to search for products, add them to their cart, and remove items from the cart.
   - Payment functionality is integrated using Razorpay for secure transactions.
