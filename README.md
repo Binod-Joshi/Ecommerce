@@ -52,8 +52,10 @@ Create a file called .env in the backend folder. Inside it write this :
 
 ```bash
 MONGO_URL = mongodb://127.0.0.1/ecommerce
+RAZORPAY_API_KEY = "Your RAZORPAY_API_KEY "
+RAZORPAY_API_SECRET = "Your RAZORPAY_API_SECRET"
 ```
-Instead of this link write your database link.
+Instead of this link write your database link and rayzorpay key and secret.
 
 Terminal 2: Setting Up Frontend
 
