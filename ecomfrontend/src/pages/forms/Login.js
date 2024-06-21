@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../store/userRelated/userHandle';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { authInitial } from '../../store/productRelated/productSlice';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { CircularProgress, IconButton, InputAdornment } from '@mui/material';
@@ -31,7 +31,7 @@ export default function Login({role}) {
   const navigate = useNavigate();
   console.log(role);
 
-  const updatedrole = role.charAt(0).toLowerCase()+role.slice(1);
+  const updatedrole = role.charAt(0).toLowerCase() + role.slice(1);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -47,7 +47,7 @@ export default function Login({role}) {
     dispatch(loginUser(fields));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log(status);
     if(status === "success"){
       dispatch(authInitial());
@@ -71,7 +71,7 @@ export default function Login({role}) {
     }
   },[status])
 
-  console.log(status,response);
+  // console.log(status,response);
 
   return (
     <ThemeProvider theme={defaultTheme}>

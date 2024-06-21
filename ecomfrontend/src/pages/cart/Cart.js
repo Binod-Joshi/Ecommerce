@@ -64,7 +64,6 @@ const Cart = () => {
   );
   const totalCostAfterDiscount = totalCost - totalDiscount;
   const totalSaveIncludingDelivery = totalCostAfterDiscount + 40;
-  console.log(totalCost);
 
   const handlePlaceorder = () => {
     console.log("order is placing");

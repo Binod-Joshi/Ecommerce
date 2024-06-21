@@ -69,7 +69,6 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<FirstPage />} />
-          {/* <Route path="/decide" element={<FirstPage />} /> */}
           <Route path="/logincustomer" element={<Login role={"Customer"} />} />
           <Route
             path="/registercustomer"
@@ -85,7 +84,6 @@ function App() {
             path="/particularproduct/:encodedImage/:productId"
             element={<ParticularProduct />}
           />
-          {/* <Route path="/search" element={<Search />} /> */}
           <Route path="/buyingorcartingwithoutlogin" element={<BuyingCartingWithoutLogin/>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
